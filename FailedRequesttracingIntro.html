@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<title>Failed Request tracing - An introductionk</title>
+<meta content="A framework for easily creating beautiful presentations using HTML" name="description" />
+<meta content="Hakim El Hattab" name="author" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+<link href="css/reveal.min.css" rel="stylesheet" />
+<link id="theme" href="css/theme/default.css" rel="stylesheet" />
+<!-- For syntax highlighting -->
+<link href="lib/css/zenburn.css" rel="stylesheet" />
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+	<!-- Any section element inside of this container is displayed as a slide -->
+
+	<div class="slides">
+				<section>
+					<h1>Introduction to Failed Request Tracing</h1>
+					<h3>IIS Troubleshooting Made Easy</h3>
+					<p>
+						<small>Created by <a href="http://debugging.io">Rohith Rajan</a> / <a href="http://twitter.com/debuggingio">@debuggingio</a></small>
+					</p>
+				</section>
+				
+				<section>
+				<h2>What is FREB ?</h2>
+				<ul>
+				<li>provides a way to determine what exactly is happening with your requests inside IIS and ASP.NET</li>
+					<li>An XML file generated on the server</li>
+					<li>Generated at <strong>C:\inetpub\logs\FailedReqLogFiles</strong></li>
+					<li>Viewed using Internet Explorer</li>
+					<li>Needs accompanying XSLT stylesheet freb.xsl</li>
+				</ul>
+				</section>
+				<section>
+				<section>
+				<h2>Prerequisites</h2>
+				<ul>
+					<li>Make sure Tracing&nbsp; is installed&nbsp; </li>
+				</ul>
+				</section>
+				<section>
+				<p>WINDOWS VISTA / 7 / 8&nbsp; -Control panel -&gt; Programs and 
+				Features -&gt; Turn on Windows Features on or off.</p>
+				<p>
+				<img alt="windows7/8- enable tracing is installed" title="tracing is installed with iis" src="images/IIS7%20tracing%20installed%20windows%20vista%20and%20above.png" /></p>
+				</section>
+				<section>
+				<p>WINDOWS SERVER 2008 / 2008 R2 </p>
+				<p>
+				<img alt=" Failed Request tracing setup" height="550" title="tracing enabled -failed request tracing setup" src="images/traceFailedRequests_setup_1.png" width="780" /></p>
+				</section>
+				<section>
+				
+				<img alt="add roles tracing -failed request tracing" height="567" title="add roles tracing -failed request tracing" src="images/Add_Roles_Tracing.png" width="800" /></p>
+				</section>
+				</section>
+
+                <section>
+				<h2>Enable Failed Request Tracing</h2>
+				<p>Select the Website in IIS Manager(inetmgr.exe)</p>
+				<p>In the Actions Pane -&gt;Configure -&gt;Failed Request Tracing&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+				<p>
+				<img alt="enable failed request tracing in iis" title="enable failed request tracing" src="images/img32.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+				</section>
+
+<section>
+				<h2>Configure Failure Definitions</h2>
+				<p>Select the Website in IIS Manager</p>
+				<p>Double-click<span class="Apple-converted-space">&nbsp;</span><strong >Failed 
+				Request Tracing Rules</strong>.</p>
+				<p>
+				<img alt="configure failed request tracing" title="configure failed request tracing" src="images/configure%20failed%20request%20tracing.png" /></p>
+				</section>
+
+<section>
+				<h2>Add Rule definition for 200 status code</h2>
+				<p>
+				<img alt="add failed request rule for 200" title="add failed request rule for 200" src="images/failed%20request%20tracing%20for%20status%20200.jpg" /></p>
+				<p>Click Next -&gt;select Status code(s) and enter 200</p>
+				</section>
+
+<section>
+				<h2>
+				<img alt="failed request for 200 status" title="failed request for 200 status" src="images/failed%20request%20tracing%20finish%20dialogue.png" /></h2>
+				<p>Click <strong>Next</strong> and click <strong>Finish </strong>
+				and you will see Following definition for you website</p>
+				<p>
+				<img alt="freb rule for 200" title="freb rule for 200" src="images/failed%20request%20trace%20rule%20success.png" /></p>
+				</section>
+				<section>
+				</section>
+
+<section>
+				<h2>Test and View the Failure Request Log File</h2>
+				<ul>
+					<li>Browse to any page on your website</li>
+					<li>Now that you have generated a failed request, in windows 
+					explorer navigate to 
+					%systemdrive%\inetpub\logs\FailedReqLogFiles\W3SVC1.</li>
+					<li>
+					<img alt="failed request generated" title="failed request generated" src="images/viewing%20generated%20freb%20files.png" /></li>
+					<li>The folder which the trace file is generated is 
+					according to your website&#39;s ID</li>
+					<li>Your website&#39;s ID can be found by going to IIS 
+					Manager(inetmgr.exe) -&gt; Connections Pane -&gt;Expand Machine 
+					Name-&gt;Click Sites</li>
+					<li>
+					<img alt="IIS Website's ID" title="finding IIS website's ID" src="images/finding%20iis%20website%20ids.png" /></li>
+				</ul>
+				</section>
+
+<section>
+				<h2>View the Generated File</h2>
+				<p >
+				Right-click the log file for th error, and click&nbsp;<strong>Open 
+				With -&gt; Internet Explorer</strong>. If this is the first time 
+				that you are opening a Failed Request Tracing file, you must 
+				add&nbsp;<strong>about:internet&nbsp;to the list of trusted sites</strong>, 
+				since Internet Explorer&#39;s Enhanced Security Configuration is 
+				enabled by default. If this is the case, you will see the 
+				following:</p>
+				<p >
+				<img alt="about internet adding site to trusted sites" height="350" title="about internet adding site to trusted sites" src="images/adding%20about%20internet%20to%20trusted%20sites%20in%20ie.png" width="395" />&nbsp;</p>
+				</section>
+
+<section>
+				<h2>View the failed request trace as shown </h2>
+				<p>
+				<img alt="viewing the freb trace file in IE" title="viewing the freb trace file" src="images/viewing%20the%20trace%20file%20in%20IE.jpg" /></p>
+				</section>
+
+<section>
+				<h2></h2>
+				<p></p>
+				</section>
+
+
+	
+	
+                		   </div>
+</div>
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme ||'simple', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+</body>
+
+</html>

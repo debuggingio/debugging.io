@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Untitled 1</title>
+</head>
+
+<body>
+<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Introduction to Failed Request Tracing</h1>
+					<h3>IIS Troubleshooting Made Easy</h3>
+					<p>
+						<small>Created by <a href="http://debugging.io">Rohith Rajan</a> / <a href="http://twitter.com/debuggingio">@debuggingio</a></small>
+					</p>
+				</section>
+				<section>
+				</section>
+				<section>
+				<h2>What is Failed Request Tracing(also called FREB)</h2>
+				<p>provides a way to determine what exactly is happening with your requests inside IIS and ASP.NET and why</p>
+				</section>
+				<section>
+				<h2>What is FREB ?</h2>
+				<ul>
+					<li>An XML file generated on the server</li>
+					<li>Generated at <strong>C:\inetpub\logs\FailedReqLogFiles</strong></li>
+					<li>Viewed using Internet Explorer</li>
+					<li>Needs accompanying XSLt stylesheet freb.xsl</li>
+				</ul>
+				</section>
+				<section>
+				<h2>Prerequisites</h2>
+				<ul>
+					<li>Make sure Tracing&nbsp; is installed&nbsp; </li>
+				</ul>
+				<p>WINDOWS VISTA / 7 / 8&nbsp; -Control panel -&gt; Programs and 
+				Features -&gt; Turn on Windows Features on or off.</p>
+				<p>
+				<img alt="windows7/8- enable tracing is installed" longdesc="tracing is installed with iis" src="images/IIS7%20tracing%20installed%20windows%20vista%20and%20above.png" /></p>
+				<p>WINDOWS SERVER 2008 / 2008 R2 </p>
+				<p>
+				<img alt=" Failed Request tracing setup" height="550" longdesc="tracing enabled -failed request tracing setup" src="images/traceFailedRequests_setup_1.png" width="780" /></p>
+				<p>WINDOWS SERVER 2012</p>
+				<p><strong>Server Manager</strong><span>, click&nbsp;</span><strong>Manage</strong><span>, 
+				and then click&nbsp;</span><strong>Add Roles and Features</strong><span>.- 
+				&gt;
+				<strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 600; line-height: 24px; vertical-align: baseline; color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">
+				Server Roles</strong><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 24px; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);"><span class="Apple-converted-space">&nbsp;</span>page, 
+				select and open<span class="Apple-converted-space">&nbsp;</span></span><strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 600; line-height: 24px; vertical-align: baseline; color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">Web 
+				Server (IIS)</strong><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 24px; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">,<span class="Apple-converted-space">&nbsp;</span></span><strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 600; line-height: 24px; vertical-align: baseline; color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">Web 
+				Server</strong><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 24px; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">, 
+				and<span class="Apple-converted-space">&nbsp;</span></span><strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 600; line-height: 24px; vertical-align: baseline; color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">Health 
+				and Diagnostics</strong><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 24px; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">. 
+				Select<span class="Apple-converted-space">&nbsp;</span></span><strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 600; line-height: 24px; vertical-align: baseline; color: rgb(0, 0, 0); letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">Tracing</strong><span style="color: rgb(0, 0, 0); font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 24px; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline !important; float: none; background-color: rgb(255, 255, 255);">,</span></span></p>
+				<p>
+				<img alt="add roles tracing -failed request tracing" height="567" longdesc="add roles tracing -failed request tracing" src="images/Add_Roles_Tracing.png" width="800" /></p>
+				</section>
+
+<section>
+				<h2>Enable Failed Request Tracing</h2>
+				<p>using IIS Server Manager GUI (on standalone server)</p>
+				<p>IIS Manager(inetmgr.exe) -&gt; Connections Pane -&gt;Expand Machine 
+				Name-&gt;Expand Sites -&gt;Select the Website you want to configure</p>
+				<p>In the Actions Pane -&gt;Configure -&gt;Failed Request Tracing&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+				<p>
+				<img alt="enable failed request tracing in iis" longdesc="enable failed request tracing" src="images/img32.png" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+				</section>
+
+<section>
+				<h2>Configure Failure Definitions</h2>
+				<p>IIS Manager(inetmgr.exe) -&gt; Connections Pane -&gt;Expand Machine 
+				Name-&gt;Expand Sites -&gt;Select the Website you want to configure</p>
+				<p>Double-click<span class="Apple-converted-space">&nbsp;</span><strong style="margin: 0px; padding: 0px; border: 0px; font-family: 'Segoe UI', 'Tahoma Bold', 'Arial Bold', 'Helvetica Bold', sans-serif !important; font-size: inherit; font-style: inherit; font-variant: inherit; font-weight: 600; line-height: inherit; vertical-align: baseline; background: transparent;">Failed 
+				Request Tracing Rules</strong>.</p>
+				<p>
+				<img alt="configure failed request tracing" longdesc="configure failed request tracing" src="images/configure%20failed%20request%20tracing.png" /></p>
+				</section>
+
+<section>
+				<h2>Add Rule definition for 200 status code</h2>
+				<p>
+				<img alt="add failed request rule for 200" longdesc="add failed request rule for 200" src="images/failed%20request%20tracing%20for%20status%20200.jpg" /></p>
+				<p>Click Next -&gt;select Status code(s) and enter 200</p>
+				</section>
+
+<section>
+				<h2>
+				<img alt="failed request for 200 status" longdesc="failed request for 200 status" src="images/failed%20request%20tracing%20finish%20dialogue.png" /></h2>
+				<p>Click <strong>Next</strong> and click <strong>Finish </strong>
+				and you will see Following definition for you website</p>
+				<p>
+				<img alt="freb rule for 200" longdesc="freb rule for 200" src="images/failed%20request%20trace%20rule%20success.png" /></p>
+				</section>
+				<section>
+				</section>
+
+<section>
+				<h2>Test and View the Failure Request Log File</h2>
+				<ul>
+					<li>Browse to any page on your website</li>
+					<li>Now that you have generated a failed request, in windows 
+					explorer navigate to 
+					%systemdrive%\inetpub\logs\FailedReqLogFiles\W3SVC1.</li>
+					<li>
+					<img alt="failed request generated" longdesc="failed request generated" src="images/viewing%20generated%20freb%20files.png" /></li>
+					<li>The folder which the trace file is generated is 
+					according to your website&#39;s ID</li>
+					<li>Your website&#39;s ID can be found by going to IIS 
+					Manager(inetmgr.exe) -&gt; Connections Pane -&gt;Expand Machine 
+					Name-&gt;Click Sites</li>
+					<li>
+					<img alt="IIS Website's ID" longdesc="finding IIS website's ID" src="images/finding%20iis%20website%20ids.png" /></li>
+				</ul>
+				</section>
+
+<section>
+				<h2>View the Generated File</h2>
+				<p style="margin: 0px 0px 25px; padding: 0px; border: 0px; font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 24px; vertical-align: baseline; clear: both; color: rgb(31, 40, 52); letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">
+				Right-click the log file for th error, and click&nbsp;<strong>Open 
+				With -&gt; Internet Explorer</strong>. If this is the first time 
+				that you are opening a Failed Request Tracing file, you must 
+				add&nbsp;<strong>about:internet&nbsp;to the list of trusted sites</strong>, 
+				since Internet Explorer&#39;s Enhanced Security Configuration is 
+				enabled by default. If this is the case, you will see the 
+				following:</p>
+				<p style="margin: 0px 0px 25px; padding: 0px; border: 0px; font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 24px; vertical-align: baseline; clear: both; color: rgb(31, 40, 52); letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background: rgb(255, 255, 255);">
+				<img alt="about internet adding site to trusted sites" height="350" longdesc="about internet adding site to trusted sites" src="images/adding%20about%20internet%20to%20trusted%20sites%20in%20ie.png" width="395" />&nbsp;</p>
+				</section>
+
+<section>
+				<h2>View the failed request trace as shown </h2>
+				<p>
+				<img alt="viewing the freb trace file in IE" longdesc="viewing the freb trace file" src="images/viewing%20the%20trace%20file%20in%20IE.jpg" /></p>
+				</section>
+
+<section>
+				<h2></h2>
+				<p></p>
+				</section>
+
+</div>
+</body>
+
+</html>

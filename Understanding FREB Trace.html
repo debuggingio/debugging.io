@@ -1,0 +1,168 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Understanding Failed Request Tracing</title>
+
+		<meta name="description" content="Understanding Failed Request Tracing">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Understanding Failed Request Trace(FREB)</h1>
+                    <h3>learn to analyze</h3>
+                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                 	<h2>Viewing the trace file</h2>
+                 	<p><img alt="view trace in IE" src="images/viewing the trace file in IE.jpg"></p>
+                </section>
+                <section>
+                <h2>How the viewer</h2>
+                <p>A look at the xslt file</p>
+                <img alt="xslt declaration in the xml file"><img xslt="xslt file in the sme folder as freb trace">
+                </section>
+                <section>
+                <h2>Understanding the summary view</h2>
+                <ul>
+                <li>Status Code</li>
+                <li>Time Taken</li>
+				<li>Module which error occured</li>
+                </ul>
+                <p><img alt="summary view -details to look at"></p>
+                </section>
+               
+                	<section>
+                		<h2>Compact view</h2>
+				<ul>
+					<li>Inspecting the HTTP Headers</li>
+					<li>Modules and Handlers</li>
+					<li>Module Set Response</li>
+					<li>Time taken by each Module</li>
+				</ul>
+				<p>Press <a href="#" class="navigate-down">Down</a> for more details
+				</p>
+					</section>
+                					<section>
+						<h3>Inspecting the HTTP Headers</h3>
+						<img>
+					</section>
+					<section>
+						<h3>Modules and Handlers</h3>
+						<img>
+					</section>
+
+					<section>
+						<h3>Module Set Response</h3>
+						<img>
+					</section>
+
+					<section>
+						<h3>Time taken by each Module</h3>
+						<img>
+					</section>
+				<section>
+				<h2>Request Details</h2>
+				<ul>
+				<li>Request Trace-Complete </li>
+				<li>Performance View</li>
+				<li>Asp.net trace</li>
+				</ul>
+				</section>
+				<section>
+				<h2>Complete request details</h2>
+				<img alt="Complete request trace">
+				</section>
+				<section>
+				<h2>Performance View</h2>
+				<img alt="performance view">
+				</section>
+				<section>
+				<h2>Asp.net page trace view</h2>
+				<img alt="asp.net page trace view">
+				</section>
+				<section>
+				<h2>Refresh</h2>
+				<ul>
+				<li>How to find the time-taken and retrun status code</li>
+				<li>how to find which module processed the requet</li>
+				<li>how to find which module took more time to process</li>
+				</ul>
+				</section>
+				<section>
+				<p>Rohith Rajan</p>
+				<a href="http://debugging.io">Debugging.io</a>
+				</section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

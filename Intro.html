@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>debugging.io -advanced .net debugging course</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Advanced .NET Debugging</h1>
+                    
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
+                </section>             
+
+                <section>
+				<h2>What will you learn ?</h2>
+				<ul>
+					<li>debugging  issues like hang/crash/high memory etc in your .net application </li>
+					<li>Use <strong>Windows Debugging tools </strong> use windbg instead of visual studio</li>
+					<li>Learn to debug production issues which cannot be easily reproduced</li>
+					<li>Understand internals of .net and CLR</li>
+				</ul>
+				</section>                
+                <section>
+				<h2>Prerequisites</h2>
+				<ul>
+					<li>Install Debugging Tools for Windows <a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff551063(v=vs.85).aspx">Debugging Tools for Windows</a></li>
+                    <li>install Debug Diagnostic Tool v2 Update 2 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=49924">Debug Diagnostic Tool </a></li>
+                    <li>Download demo website <a href="https://msdnshared.blob.core.windows.net/media/MSDNBlogsFS/prod.evol.blogs.msdn.com/CommunityServer.Components.PostAttachments/00/07/43/14/54/BuggyBits.zip">BuggyBits</a></li>
+				</ul>
+                    </section>
+                <section>
+				<h2>Inspiration</h2>
+				    <p>This course is inspired from blog articles of <a href="https://blogs.msdn.microsoft.com/tess/">Tess</a></p>
+                    <p>If you are more of reading person, You can find series of blogs on this <a href="https://blogs.msdn.microsoft.com/tess/2008/02/04/net-debugging-demos-information-and-setup-instructions/">here</a></p>
+                    <p>Please note that a bit more than what is described in those blogs :)</p>
+				</section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,155 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>PerfView-Introduction</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Perfview Introduction</h1>
+                    <h3>A low overhead profiler for your applications</h3>
+                    <h4>Rohith Rajan <a href="http://twitter.com/debuggingio">@debuggingio</a> <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                    <h2>Agenda</h2>
+                    <ul>
+                        <li>What is Perfview ?</li>
+                        <li>What can PerfView do for you? </li>
+                        <li>Using the tool:Enviroment</li>
+                        <li>Data Collection</li>
+                        <li>What kind of issues we will troubleshoot in the coming sections</li>                        
+                    </ul>
+                </section>
+                
+                <section>
+                    <p>perfview is a system wide profiler for quickly and easily collecting and viewing both time and memory performance data. 
+                        It's capability understand events emitted by .net runtime makes this tool an easy companion for .net debugging
+                         </p>
+                </section>
+                <section>
+                    <h2>What can PerfView do for you?</h2>
+                    <ul>
+                        <li>CPU Investigation</li>
+                        <li>Managed Memory Investigations</li>
+                        <li>Wall Clock / Blocked Time Investigations</li>
+                        <li>Unmanged Memory Investigations</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Using the tool:Enviroment</h2>                    
+                        <ul>
+                            <li>PerfView itself is a .NET 4.0 application. Needs .NET 4.0+. </li>
+                            <li>On 2008/2008 R2 .NET 4.0 is automatically installed via Windows Update.</li>
+                            <li>2012+ comes with .NET 4.0. </li>
+                            <li>Not supported in XP, 2003. </li>
+                            <li>Can collect information of .NET 2.0 application. Use other tools (xperf, or others) to capture, and then view it with PerfView.</li>
+                        </ul>
+                    
+                </section>
+                <section>
+                    <section>
+                            <h2>Data Collection- Run a Command</h2>
+                            <img alt="perfview run ommand" src="\images\perfview-run command.png">
+                        </section>
+                    <section>
+                        <img src="images\perfview-run command window.png" alt="perfview run command window">
+                    </section>
+                </section>
+                <section>
+                    <h2>Collect data machine wide</h2>
+                    <h3>This is suited for windows service or iis applications which cannot be run from a command prompt</h3>
+                    <img alt="Perfview data system wide"  src="images\perfview-collect system wide.png">
+                </section>
+                <section>
+                    <h2>Perfview capabilities</h2>
+                    <h3>debug console/wpf/windows forms or service/asp.net apps</h3>
+                    <ul>
+                        <li>hang or slow performance issues</li>
+                        <li>high CPU</li>
+                        <li>high memory investigations</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Things we have discussed</h2>
+                    <ul>
+                        <li>capture data for a command line application or any service applications</li>
+                        <li>Enviroments supported</li>
+                        <li>Capabilities of perfview</li>                        
+                    </ul>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme ||'simple', // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

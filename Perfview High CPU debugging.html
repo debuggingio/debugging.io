@@ -1,0 +1,154 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>CPU Investigation with PerfView</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>CPU Invsetigation with PerfView</h1>
+                    <h3>Start your application's CPU analysis</h3>
+                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                <section>
+                    <p>Perfview can collect ETW event samples.Each sample captures the complete call stack of the thread current executing; 
+                        giving very detailed and useful information about what that thread was doing at both high and low levels of abstraction</p>
+                    <a class="">press down key or click to see where we specify sample rate</a>
+                </section>
+                    <section>
+                        <img src="\images\perfview-cpu sampling rate.png" alt="PerfView sampling rate selected in capture window">
+                    </section>
+                </section>
+                <section>
+                    <h2>3 things you need for CPU analysis</h2>
+                    <ul>
+                        <li>collect atleast 5000 samples</li>
+                        <li>make sure that the process you are troubleshooting is consuming CPU</li>
+                        <li>symbols are confgured correctly</li>
+                    </ul>
+                </section>
+                <section>
+                    <p>If your program is running for long enough (typically 5-20 seconds), and you still don't have at least 1000 samples, it is likely it is because CPU is NOT the bottleneck.</p>
+                </section>
+                <section>
+                <section>
+                    <p> CPU investigation is about finding which function is spinning our CPU</p>
+                    <p>To simplify ,in our app we have 4 functions Main,SpinCPU1,SpinCPU2 and SpinCPU3. SpinCPU1 calls SpinCPU2 and SpinCPU2 calls SpinCPU3</p>
+                    <p>press <a href="#" class="navigate-down">down</a> to see the sample code.</p>
+                </section>
+                    <section>
+                        <pre>
+<code>
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            SpinCPU1();
+        }
+        static void SpinCPU1()
+        {
+            SpinCPU2();
+        }
+        static void SpinCPU2()
+        {
+            string mystring = SpinCPU3();
+            for (int i = 0; i < 10; i++)
+            {
+                mystring += SpinCPU3();
+            }           
+        }
+        static string SpinCPU3()
+        {
+            string time = string.Empty;
+            for (int i = 0; i < 20000; i++)
+            {
+                 time+= DateTime.Now.ToString();
+            }
+            return time;
+        }        
+    }
+</code>
+</pre>
+                    </section>
+                    </section>
+                <section>
+                    <h2>Collect data</h2>
+                    <img src="images\perfview-run command collect data.png" alt="collecting the data of console app">
+                </section>
+            </div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

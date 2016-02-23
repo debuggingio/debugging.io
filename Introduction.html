@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Debugging any .NET(Asp.net/Windows/Console) applications in production</title>
+
+		<meta name="description" content="Debugging nail biting issues in your production enviroment like a champ">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h2> Debugging .NET (asp.net,windows or console) Applications in Production</h2>
+					<h5>Learn the art of debugging your .net applications without affecting users</h5>
+					<p>
+						<small>Created by <a href="http://twitter.com/rohithr">Rohith Rajan</a>
+                             / 
+                            <a href="http://twitter.com/debuggingio">@debuggingio</a>
+                            
+                        </small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Common issues in production</h2>
+					<ul>
+					<li>Hang</li>
+					<li>Crash</li>
+					<li>Slow Performance</li>
+					<li>High Memory</li>
+					<li>High CPU</li>
+					</ul>
+
+				</section>
+
+					<section>
+					    <section>
+						<h2>Tools of the trade</h2>						
+						<ul>
+						<li>Failed Request Tracing in IIS</li>
+						<li>Perfmon Counters</li>
+						<li>Windbg debugging</li>
+						<li>PerfView</li>
+						</ul>
+						</section>
+						<section>
+						<h2>Failed request Tracing in IIS(FREB)</h2>
+						<p>Request-based tracing is available both in stand-alone IIS Servers and on Windows Azure Web Sites (WAWS) and provides a way to determine what exactly is happening with your requests and why, provided that you can reproduce the problem that you are experiencing.</p>						
+					</section>					
+					<section>
+						<h2>Perfmon Counters</h2>
+						<p>Windows Perforance counters show insight about a lot of things happen inisde your process.learn the art of understanding and using this</p>
+					</section>					
+					<section>
+						<h2>PerfView</h2>
+						<p>PerfView is a performance-analysis tool that helps isolate CPU- and memory-related performance issues.
+						</p>						
+					</section>
+				
+					<section>
+						<h2>Managed code debugging using Windbg  </h2>
+						<p>You can use the windows debuggers (WinDbg, CDB, and NTSD) to debug target applications that contain .net managed  code.
+						 To investigate memory or performance issues,We will be using SOS  and other debugging extension like PSSCOR2.dll,PSSCOR4.dll and SOSEX.dll</p>
+					</section>
+					</section>
+					
+
+				
+
+				<section>
+					<h2>Failed Request Tracing Scenarios</h2>
+					<ul>
+                    <li>Introduction to FREB</li>
+					<li>Capturing trace for particular error code</li>
+					<li>Wild card rules</li>
+					<li>Troubleshooting slow response</li>
+					</ul>
+				</section>
+				
+				<section>
+				<h2>Performance counters</h2>
+				
+				<ul>
+                 <li>Introduction to perfmon</li>
+                 <li>how to capture data</li>
+				<li>how to check if we have a memory leak</li>
+				<li>Finding if the memory leak is native or managed</li>
+				<li>Finding the CPU consumption</li>
+				<li>Other important CLR counters</li>
+				</ul>
+				</section>
+				
+				<section>
+				<h2>Perfview</h2>
+				<ul>
+				<li>Introduction to perfview</li>
+				<li>Investigating CPU issues in your .net applications</li>
+				<li>High Memory</li>
+				<li>Slow Response</li>
+				</ul>
+				</section>
+
+				<section>
+						<h2>Managed code debugging using Windbg  </h2>
+						<ul>
+						<li>Setting up the enviroment for debugging tools</li>
+						<li>Capturing dumps</li>
+						<li>CLR Internals</li>
+						<li><ul>
+                            <li>Crash</li>
+                            <li>Hang/Slow performance debugging</li>
+						<li>High CPU- Capturing the required data</li>
+						<li>High CPU-data analysis</li>
+                        </ul></li>						
+						</ul>
+					</section>
+
+				<section>
+					<h1>THE END</h1>
+					<h3>By Rohith Rajan</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
