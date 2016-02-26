@@ -44,7 +44,7 @@
 			<div class="slides">
                 <section>
                     <h1>Getting Started With Debugging</h1>
-                    <h3>4th video as per of Advanced .NET Debugging</h3>
+                    <h3>4th lesson from Advanced .NET Debugging course</h3>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
@@ -63,6 +63,22 @@
 						&ldquo;a stack trace (also called stack backtrace or stack traceback) is a report of the active stack frames at a certain point in time during the execution of a program.&rdquo;
 					</blockquote>
                 </section>
+                <section>
+					<h2>stack of thread 0 from w3wp.exe dump</h2>
+					<pre><code data-trim contenteditable>
+                        0:000> k
+Child-SP          RetAddr           Call Site
+00000063`50a7f578 00007ff9`5c59aadf ntdll!NtWaitForSingleObject+0x14
+00000063`50a7f580 00007ff9`4e741892 KERNELBASE!WaitForSingleObjectEx+0x8f
+00000063`50a7f620 00007ff7`cbd2157b w3wphost!AppHostInitialize+0x152
+00000063`50a7f660 00007ff7`cbd22e4c w3wp!wmain+0x41f
+00000063`50a7f800 00007ff9`5eca8102 w3wp!ParseCommandLine+0xc10
+00000063`50a7f840 00007ff9`5f5ac574 kernel32!BaseThreadInitThunk+0x22
+00000063`50a7f870 00000000`00000000 ntdll!RtlUserThreadStart+0x34
+
+					</code></pre>
+					
+				</section>
                 	<section>
 					<h2>k command to get native stack tracein windbg</h2>
 					<pre><code data-trim contenteditable>
@@ -85,7 +101,59 @@ Child-SP          RetAddr           Call Site
     <p><a href="https://msdn.microsoft.com/en-us/library/bb190764(v=vs.110).aspx">SOS Debugging Extension</a></p>
                 </section>
                 <section>
-                    <h3>Debugging Managed Code Using the Windows Debugger</h3>
+                    <pre><code data-trim contenteditable>
+                        using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StacktraceDemo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Method1();           
+            
+        }
+
+        static void Method1()
+        {
+            Console.WriteLine("In Method 1");
+            System.Threading.Thread.Sleep(20000);
+            Method2();
+        }
+        static void Method2()
+        {
+            Console.WriteLine("In Method 2");
+            System.Threading.Thread.Sleep(20000);
+            Method3();
+        }
+        static void Method3()
+        {
+            Console.WriteLine("In Method 3");
+            System.Threading.Thread.Sleep(20000);
+        }
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h4>Getting managed stack using sos  command </h4>
+                    
+                    <pre><code data-trim contenteditable>
+                       0:000> !clrstack
+OS Thread Id: 0x10c0 (0)
+Child SP       IP Call Site
+0018f040 77336f3c [HelperMethodFrame: 0018f040] System.Threading.Thread.SleepInternal(Int32)
+0018f0c4 703ff8f6 System.Threading.Thread.Sleep(Int32)
+0018f0cc 009404a8 StacktraceDemo.Program.Method1() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 20]
+0018f0d4 00940464 StacktraceDemo.Program.Main(System.String[]) [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 13]
+0018f250 72181396 [GCFrame: 0018f250] 
+
+
+					</code></pre>
                 </section>
             </div>
 
