@@ -53,7 +53,7 @@
                         <li>What is a stack trace (stack backtrace)?</li>
                         <li>Process and Threads</li>
                         <li>Getting the stacktrace of a thread in winbdg</li>
-                        <li>Getting the .net stacktrace(or clrstack) windbg</li>
+                        <li>Debugging managed code using windows debugger</li>
                     </ul>
                 </section>
                 <section>
@@ -64,12 +64,29 @@
 					</blockquote>
                 </section>
                 	<section>
-					<h2>k command to get native stack trace</h2>
+					<h2>k command to get native stack tracein windbg</h2>
 					<pre><code data-trim contenteditable>
+                        0:000> k
+Child-SP          RetAddr           Call Site
+00000063`50a7f578 00007ff9`5c59aadf ntdll!NtWaitForSingleObject+0x14
+00000063`50a7f580 00007ff9`4e741892 KERNELBASE!WaitForSingleObjectEx+0x8f
+00000063`50a7f620 00007ff7`cbd2157b w3wphost!AppHostInitialize+0x152
+00000063`50a7f660 00007ff7`cbd22e4c w3wp!wmain+0x41f
+00000063`50a7f800 00007ff9`5eca8102 w3wp!ParseCommandLine+0xc10
+00000063`50a7f840 00007ff9`5f5ac574 kernel32!BaseThreadInitThunk+0x22
+00000063`50a7f870 00000000`00000000 ntdll!RtlUserThreadStart+0x34
 
 					</code></pre>
-					<p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+					
 				</section>
+                <section>
+                    <h3><a href="https://msdn.microsoft.com/en-us/library/bb190764(v=vs.110).aspx">SOS.dll</a></h3>
+                    <p>The SOS Debugging Extension (SOS.dll) helps you debug managed programs in Visual Studio and in the Windows debugger (WinDbg.exe) by providing information about the internal common language runtime (CLR) environment.</p>
+    <p><a href="https://msdn.microsoft.com/en-us/library/bb190764(v=vs.110).aspx">SOS Debugging Extension</a></p>
+                </section>
+                <section>
+                    <h3>Debugging Managed Code Using the Windows Debugger</h3>
+                </section>
             </div>
 
 		</div>
