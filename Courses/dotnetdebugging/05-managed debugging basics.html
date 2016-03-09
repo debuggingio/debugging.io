@@ -47,15 +47,7 @@
                     <h3>5th lesson inAdvanced .NET Debugging</h3>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
-                <section>
-                    <h2>Managed debugging</h2>
-                    <ul>
-                        <li>Debugging Managed Code Using the Windows Debugger</li>
-                        <li>SOS commands</li>
-                        <li>Other extensions like psscor,sosex etc</li>
-                    </ul>
-                </section>
-                <section>
+                 <section>
                     <h3>Introduction to managed code</h3>
                     <table responsive="true">
 <tbody><tr><th>.NET Framework</th><th>CLR version</th><th>CLR filename</th></tr>
@@ -68,11 +60,117 @@
 </tbody></table>
                 </section>
                 <section>
+                    <h2>Managed debugging</h2>
+                    <ul>
+                        <li>Debugging Managed Code Using the Windows Debugger</li>
+                        <li>SOS commands</li>
+                        <li>Other extensions like psscor,sosex etc</li>
+                    </ul>
+                </section>
+                <section>
                     <h3>Debugging Managed Code </h3>
                         <p>To debug managed code, the debugger must load these two components.</p>
                         <ul><li>Data access component (DAC) (mscordacwks.dll)</li>
                         <li>SOS debugging extension (sos.dll)</li></ul>                    
                 </section>
+                <section>
+                    <h4>Debugger extension in windbg</h4>
+                <ul><li>sos</li>
+                    <li>psscor</li>
+                    <li>sosex</li>
+                    <li>netext</li>
+                </ul>
+                </section>
+                <section>
+                    <h4>Loading sos correctly</h4>
+                    <ul>
+                        <li>.loadby sos clr</li>
+                    </ul>                  
+                </section>
+                
+                <section>
+                    <h4>CLR Process and Threads overview</h4>
+                    <p>
+                            <img src="/images/clr.png" alt="CLR process and threads" class="image">
+                        </p>
+                </section>
+                <section>
+                    <h4> Threads-windbg commands recaps</h4>
+                    <p>                        
+                        <ul>
+                            <li>~ =>list all the threads</li>                            
+                            <li>~*k =>show all the threads stacks</li>
+                            <li>!threads =>show all managed threads</li>
+                            <li>!clrstack =>show managed thread stack</li>
+                            <li>~* e !clrstack =>show all managed thread stacks</li>                  
+</ul>
+                    </p>
+                    
+                </section>
+                 <section>
+                    <h2>Application Domains</h2>
+                     <p>
+                            <img src="/images/appdomains.png" alt="Appdomains in .net" class="image">
+                        </p>
+                </section>
+                <!--<section>
+                    <h4>Application Domains inside asp.net </h4>
+                    <p>explained using windbg</p>
+                     <p>
+                            <img src="/images/appdomains-aspnet.png" alt="appdomains in asp.net process" class="image">
+                        </p>
+                </section>-->
+                <section>
+                    <h4>exploring appdomains -using windbg commands</h4>
+                      <p>                        
+                        <ul>
+                            <li>!dumpdomain -stat (only for CLR 4.0 or less)</li>                            
+                            <li>!dumpdomain</li>
+                            <li>!dumpdomain &lt;domainaddress&gt;</li>                            
+                    </ul>
+                    </p>
+                </section>
+                 <section>
+                    <h4>!dumpdomain output explained </h4>
+                    <p>explained using windbg</p>
+                     <p>
+                            <img src="/images/applicationdomains-in-process.png" alt="appdomains in asp.net process" class="image">
+                        </p>
+                </section>
+                
+                 <section>
+                    <h2>Looking at Assemblies</h2>
+                    <ul>
+                        <li>!dumpdomain =>dump all domains and containing assemblies</li>
+                        <li>!dumpassembly &lt;assemblyaddress&gt;=> dump assembly details</li>                        
+                    </ul>
+                </section>
+                 <section>
+                    <h2>Types overview</h2>
+                    <ul>
+                        <li>Reference Types</li>
+                        <li>Value Types</li>                        
+                    </ul>
+                </section>
+                 <section>
+                    <h2>Looking at Types</h2>
+                    <ul>
+                        <li>!dumpobj or !do  =>This command allows you to examine the fields of an object</li>
+                        <li>!DumpVC =>Allows you to examine the fields of a value class. </li>                        
+                    </ul>
+                </section>
+                 <section>
+                    <h2>Method Descriptors</h2>
+                    <ul>
+                        <li>!DumpMT =>Examine a MethodTable.</li>
+                        <li>!DumpMD =>!DumpMD &lt;MethodDesc address&gt;
+
+This command lists information about a MethodDesc</li>
+                        <li>!DumpClass =></li>
+                    </ul>
+                </section>             
+                
+               
             </div>
 
 		</div>
