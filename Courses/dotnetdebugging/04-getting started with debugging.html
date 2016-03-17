@@ -53,16 +53,24 @@
                         <li>What is a stack trace (stack backtrace)?</li>
                         <li>Process and Threads</li>
                         <li>Getting the stacktrace of a thread in winbdg</li>
-                        <li>Debugging managed code using windows debugger</li>
+                        <li>Stacktrace of managed code using sos debugger extension</li>
                     </ul>
                 </section>
                 <section>
                     <h3>understand a thread stack</h3>
 
                     <blockquote cite="https://en.wikipedia.org/wiki/Stack_trace">
-						&ldquo;a stack trace (also called stack backtrace or stack traceback) is a report of the active stack frames at a certain point in time during the execution of a program.&rdquo;
+						&ldquo;In simple terms, a stack trace is a list of the method calls that the application(thread) was in at particular point.&rdquo;
 					</blockquote>
                 </section>
+                  
+                <section>
+                    <h4>CLR Process and Threads overview</h4>
+                    <p>
+                            <img src="/images/clr.png" alt="CLR process and threads" class="image">
+                        </p>
+                </section>
+                
                 <section>
 					<h2>stack of thread 0 from w3wp.exe dump</h2>
 					<pre><code data-trim contenteditable>
@@ -140,7 +148,7 @@ namespace StacktraceDemo
                     </code></pre>
                 </section>
                 <section>
-                    <h4>Getting managed stack using sos  command </h4>
+                    <h5>Getting managed stack using sos extension of previous program </h5>
                     
                     <pre><code data-trim contenteditable>
                        0:000> !clrstack
@@ -156,7 +164,50 @@ Child SP       IP Call Site
 					</code></pre>
                 </section>
                 <section>
-                    <h4>references</h4>
+                    <h4>Getting stack using sos  command(after 20 seconds) </h4>
+                    
+                    <pre><code data-trim contenteditable>
+                       0:000> !clrstack
+OS Thread Id: 0x10c0 (0)
+Child SP       IP Call Site
+0018f030 77336f3c [HelperMethodFrame: 0018f030] System.Threading.Thread.SleepInternal(Int32)
+0018f0b4 703ff8f6 System.Threading.Thread.Sleep(Int32)
+0018f0c4 009404f7 StacktraceDemo.Program.Method2() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 27]
+0018f0cc 009404af StacktraceDemo.Program.Method1() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 21]
+0018f0d4 00940464 StacktraceDemo.Program.Main(System.String[]) [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 13]
+0018f250 72181396 [GCFrame: 0018f250] 
+
+
+					</code></pre>
+                </section>
+
+                <section>
+                    <h4>Getting stack using sos  command(after 40 seconds) </h4>
+                    
+                    <pre><code data-trim contenteditable>
+                      0:000> !clrstack
+OS Thread Id: 0x10c0 (0)
+Child SP       IP Call Site
+0018f030 77336f3c [HelperMethodFrame: 0018f030] System.Threading.Thread.SleepInternal(Int32)
+0018f0b4 703ff8f6 System.Threading.Thread.Sleep(Int32)
+0018f0bc 00940538 StacktraceDemo.Program.Method3() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 32]
+0018f0c4 009404f7 StacktraceDemo.Program.Method2() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 27]
+0018f0cc 009404af StacktraceDemo.Program.Method1() [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 21]
+0018f0d4 00940464 StacktraceDemo.Program.Main(System.String[]) [c:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\Program.cs @ 13]
+0018f250 72181396 [GCFrame: 0018f250] 
+
+
+
+					</code></pre>
+                </section>
+                <section>
+                    <h4>References</h4>
+                    <ul>
+                        <li><a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff540665(v=vs.85).aspx">Debugging Managed Code Using the Windows Debugger</a></li>
+                        <li><a href="https://msdn.microsoft.com/en-us/library/bb190764(v=vs.110).aspx">Sos.dll</a></li>
+                        <li><a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms681917(v=vs.85).aspx">Process and Threads</a></li>
+                        <li><a href="http://stackoverflow.com/questions/200469/what-is-the-difference-between-a-process-and-a-thread">Process Vs Thread</a></li>                        
+                    </ul>
                 </section>
             </div>
 

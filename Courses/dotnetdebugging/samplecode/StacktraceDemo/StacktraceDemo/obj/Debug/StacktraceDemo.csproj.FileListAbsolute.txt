@@ -1,0 +1,6 @@
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\bin\Debug\StacktraceDemo.exe.config
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\bin\Debug\StacktraceDemo.exe
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\bin\Debug\StacktraceDemo.pdb
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\obj\Debug\StacktraceDemo.csprojResolveAssemblyReference.cache
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\obj\Debug\StacktraceDemo.exe
+C:\Users\rohitra\Documents\debugging.io\Courses\dotnetdebugging\samplecode\StacktraceDemo\StacktraceDemo\obj\Debug\StacktraceDemo.pdb
