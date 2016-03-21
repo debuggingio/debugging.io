@@ -159,18 +159,36 @@
                         <li>!DumpVC =>Allows you to examine the fields of a value class. </li>                        
                     </ul>
                 </section>
+                <section>
+                <h2>Method Tables</h2>
+                <p><i>!DumpMT [-MD] &lt;MethodTable address&gt;</i></p>
+                <p>Examine a MethodTable. Each managed object has a MethodTable pointer at the start. If you pass the "-MD" flag, you'll also see a list of all the methods 
+defined on the object. </p>
+                    </section>
                  <section>
                     <h2>Method Descriptors</h2>
-                    <ul>
-                        <li>!DumpMT =>Examine a MethodTable.</li>
-                        <li>!DumpMD =>!DumpMD &lt;MethodDesc address&gt;
+                    <p>                        
+                        <li> <i>!DumpMD</i> =>!DumpMD &lt;MethodDesc address&gt;
 This command lists information about a MethodDesc</li>
-                        <li>!DumpClass &lt;EEClass address&gt; =>!DumpClass 
-will show attributes, as well as list the fields of the type.</li>
-                    </ul>
+                        
+                    </p>
                 </section>             
                 
-               
+            <section>
+                <h2>getting stack objects</h2>
+                <p>
+                <b> <i>!dso </i>->dump stack objects</b></p>
+                <p>
+                <b><i>!mdso</i> ->dump stack objects(from sosex extension)</b>
+                    </p>
+            </section>  
+                <section>
+                    <h2>EEClass</h2>
+                    <p>Logical equivalent of the method table. </p>
+                    <p> <i>!DumpClass &lt;EEClass address&gt;</i> =>!DumpClass 
+will show attributes, as well as list the fields of the type.</p>
+                    <p>this command can be used to get understanding each type field.will also use to see the static variables.</p>
+                </section>             
             </div>
 
 		</div>
