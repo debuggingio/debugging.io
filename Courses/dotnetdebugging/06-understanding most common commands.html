@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -managed debugging using windbg</title>
+		<title>debugging.io -understanding objects</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,61 +43,10 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Managed debugging using windbg</h1>
-                    <h3>5th lesson in Advanced .NET Debugging</h3>
-                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
-                </section>
-                 <section>
-                    <h3>Introduction to managed code</h3>
-                    <table responsive="true">
-<tbody><tr><th>.NET Framework</th><th>CLR version</th><th>CLR filename</th></tr>
-<tr><td data-th=".NET Framework version">1.1</td><td data-th="CLR version">1.1</td><td data-th="CLR filename">mscorwks.dll</td></tr>
-<tr><td data-th=".NET Framework version">2.0</td><td data-th="CLR version">2.0</td><td data-th="CLR filename">mscorwks.dll</td></tr>
-<tr><td data-th=".NET Framework version">3.0</td><td data-th="CLR version">2.0</td><td data-th="CLR filename">mscorwks.dll</td></tr>
-<tr><td data-th=".NET Framework version">3.5</td><td data-th="CLR version">2.0</td><td data-th="CLR filename">mscorwks.dll</td></tr>
-<tr><td data-th=".NET Framework version">4.0</td><td data-th="CLR version">4.0</td><td data-th="CLR filename">clr.dll</td></tr>
-<tr><td data-th=".NET Framework version">4.5</td><td data-th="CLR version">4.0</td><td data-th="CLR filename">clr.dll</td></tr>
-</tbody></table>
-                </section>
-                <section>
-                    <h2>Managed debugging</h2>
-                    <ul>
-                        <li>Debugging Managed Code Using the Windows Debugger</li>
-                        <li>SOS commands</li>
-                        <li>Other extensions like psscor,sosex etc</li>
-                    </ul>
-                </section>
-                <section>
-                    <h3>Debugging Managed Code </h3>
-                        <p>To debug managed code, the debugger must load these two components.</p>
-                        <ul><li>Data access component (DAC) (mscordacwks.dll)</li>
-                        <li>SOS debugging extension (sos.dll)</li></ul>                    
-                </section>
-                <section>
-                    <h4>Debugger extension in windbg</h4>
-                    <ul><li>sos</li>
-                    <li>psscor,psscor2 and psscor4</li>
-                    <li>sosex</li>
-                    <li>NetExt</li>
-                </ul>
-                </section>
-                <section>
-                    <table responsive="true">
-<tbody><tr><th>.NET Framework version</th><th>debugger extensions</th></tr>
-<tr><td data-th=".NET Framework version">1.1</td><td data-th="CLR version">sos.dll etc</td></tr>
-<tr><td data-th=".NET Framework version">2.0</td><td data-th="CLR version">sos.dll,<a href="https://www.microsoft.com/en-in/download/details.aspx?id=1073">psscor2.dll</a>,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a></td></td></tr>
-<tr><td data-th=".NET Framework version">4.0</td><td data-th="CLR version">sos.dll,<a href="https://www.microsoft.com/en-in/download/details.aspx?id=21255">psscor4.dll</a>,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a></td></tr>
-<tr><td data-th=".NET Framework version">4.5</td><td data-th="CLR version">sos.dll,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>, <a href="https://netext.codeplex.com/">NetExt.dll</a></td></tr>
-    <tr><td data-th=".NET Framework version">4.6</td><td data-th="CLR version">sos.dll,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a> </td></tr>
-</tbody></table>
-                </section>
-                <section>
-                    <h4>Loading sos correctly</h4>
-                    <ul>
-                        <li>.loadby sos clr</li>
-                    </ul>                  
-                </section>
-                
+                    <h1>Understanding most common commands</h1>
+                    <h3>6th video from advanced .net debugging course</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
+                </section>                
                 <section>
                     <h4>CLR Process and Threads overview</h4>
                     <p>
@@ -198,7 +147,7 @@ This command lists information about a MethodDesc
                     <p> <i>!DumpClass &lt;EEClass address&gt;</i> =>!DumpClass 
 will show attributes, as well as list the fields of the type.</p>
                     <p>this command can be used to get understanding each type field.will also use to see the static variables.</p>
-                </section>             
+                </section>
             </div>
 
 		</div>
