@@ -59,14 +59,14 @@
 <tr><td data-th=".NET Framework version">4.5</td><td data-th="CLR version">4.0</td><td data-th="CLR filename">clr.dll</td></tr>
 </tbody></table>
                 </section>
-                <section>
+                <!--<section>
                     <h2>Managed debugging</h2>
                     <ul>
                         <li>Debugging Managed Code Using the Windows Debugger</li>
                         <li>SOS commands</li>
                         <li>Other extensions like psscor,sosex etc</li>
                     </ul>
-                </section>
+                </section>-->
                 <section>
                     <h3>Debugging Managed Code </h3>
                         <p>To debug managed code, the debugger must load these two components.</p>
@@ -97,43 +97,66 @@
                         <li>.loadby sos clr</li>
                     </ul>                  
                 </section>
-                
-                <section>
-                    <h4>CLR Process and Threads overview</h4>
-                    <p>
-                            <img src="/images/clr.png" alt="CLR process and threads" class="image">
-                        </p>
-                </section>
-                <section>
-                    <h4> Threads-windbg commands recaps</h4>
-                                            
-                        <ul>
-                            <li>~ =>list all the threads</li>                            
-                            <li>~*k =>show all the threads stacks</li>
-                            <li>!threads =>show all managed threads</li>
-                            <li>!clrstack =>show managed thread stack</li>
-                            <li>~* e !clrstack =>show all managed thread stacks</li>                  
-</ul>
-                    
-                    
-                </section>
-                 <section>
-                    <h2>Application Domains</h2>
-                     <p>
-                            <img src="/images/appdomains.png" alt="Appdomains in .net" class="image">
-                        </p>
-                </section>
-                <!--<section>
-                    <h4>Application Domains inside asp.net </h4>
-                    <p>explained using windbg</p>
-                     <p>
-                            <img src="/images/appdomains-aspnet.png" alt="appdomains in asp.net process" class="image">
-                        </p>
-                </section>--> 
                 <section>
                     <h3>Getting the help</h3>
                     <p><i>!help</i> command</p>
-                </section>         
+                </section>  
+                <section>
+                    <h3>help of sos.dll</h3>
+                    <pre><code data-trim contenteditable>
+                        0:000> !sos.help
+-------------------------------------------------------------------------------
+SOS is a debugger extension DLL designed to aid in the debugging of managed
+programs. Functions are listed by category, then roughly in order of
+importance. Shortcut names for popular functions are listed in parenthesis.
+Type "!help <functionname>" for detailed info on that function. 
+
+Object Inspection                  Examining code and stacks
+-----------------------------      -----------------------------
+DumpObj (do)                       Threads
+DumpArray (da)                     ThreadState
+DumpStackObjects (dso)             IP2MD
+DumpHeap                           U
+DumpVC                             DumpStack
+GCRoot                             EEStack
+ObjSize                            CLRStack
+FinalizeQueue                      GCInfo
+PrintException (pe)                EHInfo
+TraverseHeap                       BPMD 
+                                   COMState
+
+Examining CLR data structures      Diagnostic Utilities
+-----------------------------      -----------------------------
+DumpDomain                         VerifyHeap
+EEHeap                             VerifyObj
+Name2EE                            FindRoots
+SyncBlk                            HeapStat
+DumpMT                             GCWhere
+DumpClass                          ListNearObj (lno)
+DumpMD                             GCHandles
+Token2EE                           GCHandleLeaks
+EEVersion                          FinalizeQueue (fq)
+DumpModule                         FindAppDomain
+ThreadPool                         SaveModule
+DumpAssembly                       ProcInfo 
+DumpSigElem                        StopOnException (soe)
+DumpRuntimeTypes                   DumpLog
+DumpSig                            VMMap
+RCWCleanupList                     VMStat
+DumpIL                             MinidumpMode 
+DumpRCW                            AnalyzeOOM (ao)
+DumpCCW
+
+Examining the GC history           Other
+-----------------------------      -----------------------------
+HistInit                           FAQ
+HistRoot
+HistObj
+HistObjFind
+HistClear
+
+                        </code></pre>
+                </section>       
                 <section>
                     <h3>References</h3>
                     <ul>                        
