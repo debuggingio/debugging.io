@@ -43,15 +43,23 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Getting started with debugging a hang</h1>
+                    <h1>Debugging a hang</h1>
                     <h3>6th lesson from debugging course</h3>
-                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
                     <h3>What is hang/slow response?</h3>
+                    <p>A hang is identified when our application seems to stop responding to incoming requests. Common symptoms of a hang: </p>
+                        <ul>
+                            <li>Pages load very slow (or don’t load at all) compared to normal operation</li>
+                                <li>From Performance Monitor you see that the requests start getting queued.</li>
+                                <li>Requests for pages return a “Server Too Busy” or timeout error </li>                             
+                        </ul>
+                        
                 </section>
                 <section>
-                    <h3>Identifying a hang/slow response in asp.net application</h3>                   
+                    <h3>Identifying a hang/slow response in asp.net application</h3>
+                    <ul><li>using fiddler</li></ul>
                 </section>
                 <section>
                     <h3>Reproduce the problem</h3>

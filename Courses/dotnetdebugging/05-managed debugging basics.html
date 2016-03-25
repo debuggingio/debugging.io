@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -managed debugging basics</title>
+		<title>debugging.io -managed debugging using windbg</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,8 +43,8 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Managed debugging -Basics</h1>
-                    <h3>5th lesson inAdvanced .NET Debugging</h3>
+                    <h1>Managed debugging using windbg</h1>
+                    <h3>5th lesson in Advanced .NET Debugging</h3>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                  <section>
@@ -75,11 +75,21 @@
                 </section>
                 <section>
                     <h4>Debugger extension in windbg</h4>
-                <ul><li>sos</li>
-                    <li>psscor</li>
+                    <ul><li>sos</li>
+                    <li>psscor,psscor2 and psscor4</li>
                     <li>sosex</li>
-                    <li>netext</li>
+                    <li>NetExt</li>
                 </ul>
+                </section>
+                <section>
+                    <table responsive="true">
+<tbody><tr><th>.NET Framework version</th><th>debugger extensions</th></tr>
+<tr><td data-th=".NET Framework version">1.1</td><td data-th="CLR version">sos.dll etc</td></tr>
+<tr><td data-th=".NET Framework version">2.0</td><td data-th="CLR version">sos.dll,<a href="https://www.microsoft.com/en-in/download/details.aspx?id=1073">psscor2.dll</a>,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a></td></td></tr>
+<tr><td data-th=".NET Framework version">4.0</td><td data-th="CLR version">sos.dll,<a href="https://www.microsoft.com/en-in/download/details.aspx?id=21255">psscor4.dll</a>,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a></td></tr>
+<tr><td data-th=".NET Framework version">4.5</td><td data-th="CLR version">sos.dll,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>, <a href="https://netext.codeplex.com/">NetExt.dll</a></td></tr>
+    <tr><td data-th=".NET Framework version">4.6</td><td data-th="CLR version">sos.dll,<a href="http://www.stevestechspot.com/default.aspx">sosex.dll</a>,<a href="https://netext.codeplex.com/">NetExt.dll</a> </td></tr>
+</tbody></table>
                 </section>
                 <section>
                     <h4>Loading sos correctly</h4>
