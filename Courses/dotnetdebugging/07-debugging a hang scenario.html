@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -debugging a hang in your asp.net application</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -44,7 +44,7 @@
 			<div class="slides">
                 <section>
                     <h1>Debugging a hang</h1>
-                    <h3>6th lesson from debugging course</h3>
+                    <h3>7th lesson from debugging course</h3>
                     <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
@@ -59,28 +59,77 @@
                 </section>
                 <section>
                     <h3>Identifying a hang/slow response in asp.net application</h3>
-                    <ul><li>using fiddler</li></ul>
+                    <ul>
+                        <li>using developer toolbar</li>
+                        <li>using fiddler</li>
+                        <li>looking at IIS logs</li>                 
+                    </ul>
+                </section>
+                <section>
+                    <h3>hang or slowness in production</h3>
+                    <p>analyze iislogs using <a href="https://www.microsoft.com/en-in/download/details.aspx?id=24659">logparser</a> to identify slowness</p>
+                    <a href="https://technet.microsoft.com/en-in/scriptcenter/dd919274.aspx">LogParser help</a>
+                </section>
+                <section>
+                    <h3>simple logparser script to identify slow/hang in your IIS website</h3>
+                    <pre><code data-trim contenteditable>
+                    C:\Program Files (x86)\Log Parser 2.2>logparser "select time-taken,cs-uri-stem from 'C:\inetpub\logs\LogFiles\W3SVC6\*.log' order by time-taken  desc" -i:w3c
+time-taken cs-uri-stem
+---------- ----------------------
+225712     /FeaturedProducts.aspx
+221709     /FeaturedProducts.aspx
+217705     /FeaturedProducts.aspx
+213700     /FeaturedProducts.aspx
+209696     /FeaturedProducts.aspx
+205318     /FeaturedProducts.aspx
+200673     /FeaturedProducts.aspx
+196673     /FeaturedProducts.aspx
+192668     /FeaturedProducts.aspx
+188666     /FeaturedProducts.aspx
+                    </code></pre>
                 </section>
                 <section>
                     <h3>Reproduce the problem</h3>
+                    <ul>
+                        <li>simple load test using fiddler's replay</li>
+                        <li>or using tools like tinyget or apache workbench</li>
+                        <li>or you can use professional load testing tools</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>what if you cannot reproduce</h3>
+                    <p>Some issues only happen in production where we cannot easily reproduce.
+                    we can use debugdiag for that.Watch these videos to get more understanding on that.</p>
+                    <a href="https://www.youtube.com/watch?v=Y8ipvLNU2ic">Slow Response Data Collection for Asp.Net Application </a>
                 </section>
                 <section>
                     <h3>Get a memory dump</h3>
-                </section>
+                    <img src="/images/debugdiag-createfulldump.png" alt="create dump using debugdiag" class="image">
+                </section>               
                 <section>
-                    <h3>Open the dump using windbg.exe</h3>
-                </section>
-                <section>
-                    <h3>Examine the stacks</h3>
+                    <h3>Examine the stacks in windbg</h3>
+                    <p>
+                        <i>~*k</i>
+                        <br>
+                        <i>~* e !clrstack</i>
+                    </p>
                 </section>                
                 <section>
                     <h3>Things to ignore</h3>
+                    <p>You will see many threads ,you can ingore many of that.Please refer below article for more details</p>
+                    <a href="https://blogs.msdn.microsoft.com/tess/2005/12/20/things-to-ignore-when-debugging-an-asp-net-hang/">stacks to ignore</a>
+                </section>
+                
+                <section>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a href="https://blogs.msdn.microsoft.com/tess/2008/02/04/net-debugging-demos-lab-1-hang/">debugging lab</a></li>
+                        <li><a href="https://blogs.msdn.microsoft.com/tess/2006/01/09/a-hang-scenario-locks-and-critical-sections/">a hang scenario</a></li>
+                        <li><a href="http://blogs.msdn.com/tess/archive/2006/10/16/net-hang-debugging-walkthrough.aspx">debugging walkthrough</a></li>
+                    </ul>
                 </section>
                 <section>
-                    <h3>Troubleshoot the hang</h3>
-                </section>
-                <section>
-                    <h3>A Hang Scenario, Locks and Critical Sections</h3>
+                    <h3>Happy Debugging</h3>
                 </section>
             </div>
 
