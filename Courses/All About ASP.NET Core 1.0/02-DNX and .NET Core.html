@@ -43,17 +43,65 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
+                    <h1>.Net Core and DNX</h1>
+                    <h4>2nd lesson from course on All About Asp.net Core</h4>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h3>.NET Core</h3>                    
+                    <ul>
+                        <li>.NET Core is a set of runtime, library and compiler components</li>
+                        <li>Compiles your code with a JIT compiler or ahead of time with .NET Native.</li>
+                        <li>.NET Core manages memory with a garbage collector</li>
+                        <li>.NET Core runs on Windows,Linux, OS X and FreeBSD</li>
+                    </ul>
+                </section>             
+                <section>
+                    <h3>What is .NET Core</h3>
+                    <p>.net core is one framework for all.Reduced overall footprint and runs across all OSes</p>
+                    <p>has two major components</p>
+                    <ul>
+                        <li>CoreCLR-a small runtime that is built from the same codebase as the .NET Framework CLR -Microsoft.CoreCLR NuGet package.</li>
+                        <li>CoreFx -shipped as System.* NuGet packages on NuGet.org</li>
+                    </ul>
                 </section>
                 <section>
-
+                    <h2>DNX (.NET Execution Environment)</h2>
+                    <p>Applications can target DNX and run on all platforms</p>
+                    <ul>
+                        <li>Bootstraps the hosting runtime(.net core)</li>                        
+                        <li>Managed entry point discovery</li>
+                        <li>Excutes the application</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Why build DNX?</h4>
+                    <p>DNX was built for running cross-platform ASP.NET Web applications or cross-platform console apps</p>
+                    <ul>                        
+                        <li>DNX  simplifies cross-platform development using .NET Core</li>
+                        <li>DNX provides tools for installing, creating and managing NuGet packages. </li>
+                        <li>Easy to work with open source projects-DNX projects helps you easily replace an existing dependency with its source code ,then debug the source and modify it without changing your app.</li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>The DNX</h4>
+                    <p>
+                            <img src="/images/dnx.png" alt=".NET Execution Enviroment" class="image">
+                        </p>
+                </section>
+                <section>
+                    <h3>dotnet CLI</h3>
+                    <p>dotnet command line interface toolchain is independent from the DNX-based .NET Core + ASP.NET Core 1.0 RC1 bits</p>
+                    <p><a href="https://github.com/dotnet/cli">https://github.com/dotnet/cli</a> will replace DNX,DNU,DNVM etc. </p>
+                </section>
+                <section>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a href="http://dotnet.github.io/">.NET Core</a></li>
+                        <li><a href="http://docs.asp.net/en/latest/dnx/overview.html">DNX overview</a></li>                        
+                        <li><a href="https://github.com/aspnet/dnx">DNX on github</a></li>
+                        
+                    </ul>
                 </section>
             </div>
 
