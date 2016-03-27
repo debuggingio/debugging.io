@@ -1,0 +1,368 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>debugging.io -advanced .net debugging course debugging a hang or performance issue</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="/css/reveal.min.css">
+		<link rel="stylesheet" href="/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = '/css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Debugging asp.net hang or slow performance -dump analysis</h1>
+                    <h3>8th lesson from debugging course</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                    <h2>Examing stacks</h2>
+                    <p><i>~*k</i></p>
+                </section>
+                <section>
+                <section>
+                    <h3>stacks you will see in the dumps</h3>
+                    <ul>
+                        <li>CLR Threads</li>
+                        <li>W3WP Threads</li>
+                        <li>RPC Threads</li>
+                        <li>Other COM Threads</li>
+                    </ul>
+                    <img src="/images/arrow.png" alt="press down arrow">
+                </section>
+                    <section>
+                        <h3>Common methods you see on the top of the stack of idle threads</h3>
+                        <ul>
+                            <li>ntdll!NtWaitForSingleObject</li>
+                            <li>ntdll!NtWaitForMultipleObjects</li>
+                            <li>ntdll!NtRemoveIoCompletion</li>
+                            <li>ntdll!NtWaitForWorkViaWorkerFactory</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>The main w3wp thread for start or shutwodn operations of w3wp process</h4>
+                        <pre><code>
+ntdll!NtWaitForSingleObject+0x14
+KERNELBASE!WaitForSingleObjectEx+0x8f
+w3wphost!AppHostInitialize+0x152
+w3wp!wmain+0x41f
+w3wp!ParseCommandLine+0xc10
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+</code></pre>
+                    </section>
+                    <section>
+                        <h4>IIS configuration read/write/notification thread</h4>
+                        <pre><code>
+                        Child-SP          RetAddr           Call Site
+ntdll!NtRemoveIoCompletion+0x14
+KERNELBASE!GetQueuedCompletionStatus+0x52
+nativerd!NOTIFICATION_THREAD::ThreadProc+0x58
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Idle worker threads</h4>
+                        <pre><code>
+ntdll!NtWaitForWorkViaWorkerFactory+0x14
+ntdll!TppWorkerThread+0x298
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Idle w3wp ThreadPoolThread</h4>
+                        <pre><code>                        
+ntdll!NtRemoveIoCompletion+0x14
+KERNELBASE!GetQueuedCompletionStatus+0x52
+w3tp!THREAD_POOL_DATA::ThreadPoolThread+0x49
+w3tp!THREAD_POOL_DATA::ThreadPoolThread+0x33
+w3tp!THREAD_MANAGER::ThreadManagerThread+0x4e
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle Failed Request Module writer thread</h4>
+                        <pre><code>
+ntdll!NtWaitForMultipleObjects+0x14
+KERNELBASE!WaitForMultipleObjectsEx+0xef
+KERNELBASE!WaitForMultipleObjects+0xe
+iisfreb!FREB_LOG_FILE_MANAGER::WriterThread+0x11c
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle FastCGI worker Thread</h4>
+                        <pre><code>
+ntdll!NtRemoveIoCompletion+0x14
+KERNELBASE!GetQueuedCompletionStatus+0x52
+iisfcgi!TRANSPORT::WorkerThread+0x2f
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle CLR Completion Port / IO Thread</h4>
+                        <pre><code>
+ntdll!NtRemoveIoCompletion+0x14
+KERNELBASE!GetQueuedCompletionStatus+0x52
+clr!ThreadpoolMgr::CompletionPortThreadStart+0x210
+clr!ThreadpoolMgr::intermediateThreadProc+0x7d
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle CLR Debugger Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForMultipleObjects+0x14
+KERNELBASE!WaitForMultipleObjectsEx+0xef
+clr!DebuggerRCThread::MainLoop+0xce
+clr!DebuggerRCThread::ThreadProc+0x120
+clr!DebuggerRCThread::ThreadProcStatic+0x3f
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle CLR GC Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForSingleObject+0x14
+KERNELBASE!WaitForSingleObjectEx+0x8f
+clr!CLREventWaitHelper2+0x3c
+clr!CLREventWaitHelper+0x1f
+clr!CLREventBase::WaitEx+0x7c
+clr!SVR::gc_heap::gc_thread_function+0x5f
+clr!SVR::gc_heap::gc_thread_stub+0x7e
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+                        </code></pre>
+                    </section>
+                     <section>
+                         <h4>Idle CLR Finalizer Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForMultipleObjects+0x14
+KERNELBASE!WaitForMultipleObjectsEx+0xef
+clr!SVR::WaitForFinalizerEvent+0xb0
+clr!SVR::GCHeap::FinalizerThreadWorker+0x4a
+clr!ManagedThreadBase_DispatchInner+0x2d
+clr!ManagedThreadBase_DispatchMiddle+0x6c
+clr!ManagedThreadBase_DispatchOuter+0x75
+clr!SVR::GCHeap::FinalizerThreadStart+0xd7
+clr!Thread::intermediateThreadProc+0x7d
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>idle CLR profiler Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForSingleObject+0x14
+KERNELBASE!WaitForSingleObjectEx+0x8f
+clr!ProfilingAPIAttachDetach::OverlappedResultHolder::Wait+0x28
+clr!ProfilingAPIAttachServer::ConnectToClient+0x76
+clr!ProfilingAPIAttachDetach::ProfilingAPIAttachThreadMain+0x6e
+clr!ProfilingAPIAttachDetach::ProfilingAPIAttachThreadStart+0x3f
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Idle CLR Timer Thread</h4>
+                        <pre><code>
+ntdll!NtDelayExecution+0x14
+KERNELBASE!SleepEx+0xa7
+clr!ThreadpoolMgr::TimerThreadFire+0x49
+clr!ThreadpoolMgr::TimerThreadStart+0x6f
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Idle Appdomain Unload Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForSingleObject+0x14
+KERNELBASE!WaitForSingleObjectEx+0x8f
+clr!CLREventWaitHelper2+0x3c
+clr!CLREventWaitHelper+0x1f
+clr!CLREventBase::WaitEx+0x7c
+clr!AppDomain::ADUnloadThreadStart+0x190
+clr!Thread::intermediateThreadProc+0x7d
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34</code></pre>
+                    </section>
+                    <section>
+                        <h4>CLR Idle Worker Thread</h4>
+                        <pre><code>
+ntdll!NtWaitForSingleObject+0x14
+KERNELBASE!WaitForSingleObjectEx+0x8f
+clr!CLRSemaphore::Wait+0x8a
+clr!ThreadpoolMgr::UnfairSemaphore::Wait+0xec
+clr!ThreadpoolMgr::WorkerThreadStart+0x2d7
+clr!Thread::intermediateThreadProc+0x7d
+kernel32!BaseThreadInitThunk+0x22
+ntdll!RtlUserThreadStart+0x34
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>For asp.net 2.0-3.5,please refer these blogs </p>
+                        <a href="https://blogs.msdn.microsoft.com/tess/2005/12/20/things-to-ignore-when-debugging-an-asp-net-hang/">https://blogs.msdn.microsoft.com/tess/2005/12/20/things-to-ignore-when-debugging-an-asp-net-hang/</a>
+                        <a href="https://blogs.msdn.microsoft.com/tess/2007/04/02/things-to-ignore-when-debugging-an-asp-net-hang-update-for-net-2-0/">https://blogs.msdn.microsoft.com/tess/2007/04/02/things-to-ignore-when-debugging-an-asp-net-hang-update-for-net-2-0/</a>
+                    </section>
+                    </section>
+                 <section>
+                    <h3>Following .NET stacks</h3>
+                    <p>~* e !clrstack</p>
+                </section>
+                 <section>
+                    <h3>an easier way to find running requests</h3>
+                    <p> <i>!aspxpages</i> =>for showing the aspx requests in the dump(available in psscor extension).So this will work only for .net framework 4.0 and below</p>
+                     <p><i>!whttp -running</i> =>available in NetExt. works for all versions of .net framework</p>
+                </section>
+                 <section>
+                    <h2>Understanding thread stack your aspx requests</h2>
+                    <pre><code>
+[GCFrame: 0000008d24fbd878] 
+[GCFrame: 0000008d24fbda70] 
+[HelperMethodFrame: 0000008d24fbdaa8] System.Threading.Monitor.Enter(System.Object)
+DataLayer.GetFeaturedProducts()
+FeaturedProducts.Page_Load(System.Object, System.EventArgs)
+System.Web.UI.Control.OnLoad(System.EventArgs)
+System.Web.UI.Control.LoadRecursive()
+System.Web.UI.Page.ProcessRequestMain(Boolean, Boolean)
+System.Web.UI.Page.ProcessRequest(Boolean, Boolean)
+System.Web.UI.Page.ProcessRequest()
+System.Web.UI.Page.ProcessRequest(System.Web.HttpContext)
+System.Web.HttpApplication+CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+System.Web.HttpApplication.ExecuteStep(IExecutionStep, Boolean ByRef)
+System.Web.HttpApplication+PipelineStepManager.ResumeSteps(System.Exception)
+System.Web.HttpApplication.BeginProcessRequestNotification(System.Web.HttpContext, System.AsyncCallback)
+System.Web.HttpRuntime.ProcessRequestNotificationPrivate(System.Web.Hosting.IIS7WorkerRequest, System.Web.HttpContext)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr, IntPtr, IntPtr, Int32)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr, IntPtr, IntPtr, Int32)
+DomainNeutralILStubClass.IL_STUB_ReversePInvoke(Int64, Int64, Int64, Int32)
+[InlinedCallFrame: 0000008d24fbee40] System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr, System.Web.RequestNotificationStatus ByRef)
+[InlinedCallFrame: 0000008d24fbee40] System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr, System.Web.RequestNotificationStatus ByRef)
+DomainNeutralILStubClass.IL_STUB_PInvoke(IntPtr, System.Web.RequestNotificationStatus ByRef)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr, IntPtr, IntPtr, Int32)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr, IntPtr, IntPtr, Int32)
+DomainNeutralILStubClass.IL_STUB_ReversePInvoke(Int64, Int64, Int64, Int32)
+[ContextTransitionFrame: 0000008d24fbf298] 
+</code></pre>
+                </section> 
+                <section>
+                    <h4>Looks like another thread of aspx request which is doing something different</h4>
+                    <pre><code>                                                
+[HelperMethodFrame: 0000008d26a7d608] System.Threading.Thread.SleepInternal(Int32)
+System.Threading.Thread.Sleep(Int32)
+DataLayer.GetFeaturedProducts()
+FeaturedProducts.Page_Load(System.Object, System.EventArgs)
+System.Web.UI.Control.OnLoad(System.EventArgs)
+System.Web.UI.Control.LoadRecursive()
+System.Web.UI.Page.ProcessRequestMain(Boolean, Boolean)
+System.Web.UI.Page.ProcessRequest(Boolean, Boolean)
+System.Web.UI.Page.ProcessRequest()
+System.Web.UI.Page.ProcessRequest(System.Web.HttpContext)
+System.Web.HttpApplication+CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+System.Web.HttpApplication.ExecuteStep(IExecutionStep, Boolean ByRef)
+System.Web.HttpApplication+PipelineStepManager.ResumeSteps(System.Exception)
+System.Web.HttpApplication.BeginProcessRequestNotification(System.Web.HttpContext, System.AsyncCallback)
+System.Web.HttpRuntime.ProcessRequestNotificationPrivate(System.Web.Hosting.IIS7WorkerRequest, System.Web.HttpContext)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr, IntPtr, IntPtr, Int32)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr, IntPtr, IntPtr, Int32)
+DomainNeutralILStubClass.IL_STUB_ReversePInvoke(Int64, Int64, Int64, Int32)
+[InlinedCallFrame: 0000008d26a7e9d0] System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr, System.Web.RequestNotificationStatus ByRef)
+[InlinedCallFrame: 0000008d26a7e9d0] System.Web.Hosting.UnsafeIISMethods.MgdIndicateCompletion(IntPtr, System.Web.RequestNotificationStatus ByRef)
+DomainNeutralILStubClass.IL_STUB_PInvoke(IntPtr, System.Web.RequestNotificationStatus ByRef)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotificationHelper(IntPtr, IntPtr, IntPtr, Int32)
+System.Web.Hosting.PipelineRuntime.ProcessRequestNotification(IntPtr, IntPtr, IntPtr, Int32)
+DomainNeutralILStubClass.IL_STUB_ReversePInvoke(Int64, Int64, Int64, Int32)
+[ContextTransitionFrame: 0000008d26a7ee28] 
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Identifying a ahng with the help of consecutive dumps</h3>
+                    <p>compare the output of <i>!whttp -running</i> from all the dumps</p>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="/lib/js/head.min.js"></script>
+		<script src="/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
