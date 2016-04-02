@@ -49,11 +49,120 @@
                 </section>
                 <section>
                     <h2>Installing dotnet cli</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <img src="/images/dotnet_cli_installers.png" alt="dotnet cli installers for all platforms">
                 </section>
                 <section>
+                    <h3>dotnet cli command-line usage</h3>
+                    <pre><code>
+                      C:\>dotnet --help
+.NET Command Line Tools (1.0.0-beta-002198)
+Usage: dotnet [common-options] [command] [arguments]
 
+Arguments:
+  [command]     The command to execute
+  [arguments]   Arguments to pass to the command
+
+Common Options (passed before the command):
+  -v|--verbose  Enable verbose output
+  --version     Display .NET CLI Version Number
+  --info        Display .NET CLI Info
+
+Common Commands:
+  new           Initialize a basic .NET project
+  restore       Restore dependencies specified in the .NET project
+  build         Builds a .NET project
+  publish       Publishes a .NET project for deployment (including the runtime)
+  run           Compiles and immediately executes a .NET project
+  test          Executes tests in a test project
+  repl          Launch an interactive session (read, eval, print, loop)
+  pack          Creates a NuGet package
+                    </code></pre>
+                </section>
+                
+                <section>
+                    <h3>Run your first .net core console app</h3>
+                    <h4>install .net  core and CLI tools</h4>
+                    <p>
+                    <a href="https://github.com/dotnet/cli">https://github.com/dotnet/cli</a></p>
+                        <p><a href="https://dotnet.github.io/getting-started/">https://dotnet.github.io/getting-started/</a>
+                    <br>
+                            <br>
+                        </p>
+                    <h4>Initialize app directory</h4>
+                    <pre>
+                    <code>
+mkdir hwapp
+cd hwapp
+dotnet new ///initialize basic .net project
+                    </code>
+                    </pre>
+                    <h4>Run the app</h4>
+                    <pre>
+                    <code>
+dotnet restore ///restore packages specified in project.json file
+dotnet run    ///compile and run your application
+                    </code>
+                    </pre>
+                </section>
+                <section>
+                    <h3>Run your first asp.net core web app from dotnet cli</h3>
+                    <h4>install latest .net  core and CLI SDK</h4>
+                    <p>
+                    <a href="https://github.com/dotnet/cli">https://github.com/dotnet/cli</a></p>
+                        <p><a href="https://git-scm.com/download/">make sure git is installed</a>
+                    <br>
+                            <br>
+                        </p>
+                    <h4>clone cli samples from github repo</h4>
+                    <pre>
+                    <code>
+git clone https://github.com/aspnet/cli-samples.git aspnetcli
+cd aspnetcli
+dotnet restore
+                    </code>
+                    </pre>
+                    <h4>Run the app</h4>
+                    <pre>
+                    <code>
+;Navigate to either HelloMvc or HelloWeb
+dotnet run    ///compile and run your application
+                    </code>
+                    </pre>
+                </section>
+                <section>
+                    <h3>Publishing your webapp dotnet publish</h3>
+                    <pre><code>
+C:\myprojects\cli-samples\HelloMvc>dotnet publish
+Publishing HelloMvc for .NETCoreApp,Version=v1.0
+Project HelloMvc (.NETCoreApp,Version=v1.0) was previously compiled. Skipping co
+mpilation.
+No executable found matching command "dotnet-publish-iis"
+Published to C:\myprojects\cli-samples\HelloMvc\bin\Debug\netcoreapp1.0\publish
+Published 1/1 projects successfully
+                    </code></pre>
+                    <img src="/images/dotnet_cli_published_aspnetcore.png" alt="published directory struture of asp.net core app using dotnet cli">
+                </section>
+                <section>
+                    <h3>creating a nuget package using dotnet pack</h3>
+                    <pre><code>
+C:\myprojects\cli-samples\HelloMvc>dotnet pack
+Project HelloMvc (.NETCoreApp,Version=v1.0) was previously compiled. Skipping co
+mpilation.
+Producing nuget package "HelloMvc.1.0.0" for HelloMvc
+HelloMvc -> C:\myprojects\cli-samples\HelloMvc\bin\Debug\HelloMvc.1.0.0.nupkg
+Producing nuget package "HelloMvc.1.0.0.symbols" for HelloMvc
+HelloMvc -> C:\myprojects\cli-samples\HelloMvc\bin\Debug\HelloMvc.1.0.0.symbols.
+nupkg
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>references</h3>
+                    <ul>
+                        <li><a href="https://github.com/dotnet/cli">https://github.com/dotnet/cli</a></li>
+                        <li><a href="http://dotnet.github.io/">http://dotnet.github.io/</a></li>
+                        <li><a href="https://github.com/aspnet/cli-samples">Asp.net core dotnet CLI samples</a></li>
+                    </ul>
                 </section>
             </div>
 
