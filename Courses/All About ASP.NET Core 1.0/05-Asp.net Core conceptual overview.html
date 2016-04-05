@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -asp.net core conceptual overview</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,18 +43,57 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
+                    <h1>asp.net core conceptual overview</h1>
+                    <h3>5th video from "all about asp.net core" series </h3>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h2>Startup Class</h2>
+                    <pre><code>
+                        public class Startup
+{
+     public void ConfigureServices(IServiceCollection services)
+     {
+     }
+
+     public void Configure(IApplicationBuilder app)
+     {
+     }
+
+     public static void Main(string[] args) => WebApplication.Run&lt;Startup&gt;(args);
+}
+
+                    </code></pre>
                 </section>
                 <section>
-
+                    <h3>Services</h3>
+                    <p>A service is a component that is intended for common consumption in an application. Services are made available through dependency injection. ASP.NET core includes a simple built-in inversion of control (IoC)</p>
                 </section>
+                <section>
+                    <h3>Middleware</h3>
+                    <p> compose your request pipeline using Middleware. ASP.NET 5 middleware perform asynchronous logic on an HttpContext and then optionally invoke the next middleware in the sequence or terminate the request directly.</p>
+                </section>
+                <section>
+                    <h3>Servers</h3>
+                    <p>ASP.NET Core Application Hosting model does not directly listen for requests, but instead relies on an HTTP server implementation to surface the request to the application</p>
+                    <p>Supports servers such as IIS,self-hosting,kestrel etc</p>
+                </section>
+                <section>
+                    <h3>Webroot</h3>
+                    <p>The Web root of your application is the root location in your project from which HTTP requests are handled</p>
+                </section>
+                <section>
+                    <h3>Configuration</h3>
+                    <p>ASP.NET Core uses a new configuration model for handling of simple name-value pairs that is not based on System.Configuration or web.config.</p>
+                    <img src="/images/aspnetcore_appsettings_json_file.png" alt="asp.net core config settings can be json or ini anything you configure">
+                </section>
+                <section>
+                    <h3>References</h3>
+                    <ul>
+                        <li><a href="http://docs.asp.net/en/latest/fundamentals/index.html">asp.net core docs-Fundamendals </a></li>
+                        <li><a href="http://docs.asp.net/en/latest/conceptual-overview/aspnet.html">Concpetual overview</a></li>
+                    </ul>
+                </section>              
             </div>
 
 		</div>

@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -asp.net core startup and configuration</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,17 +43,147 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
-                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                    <h1>ASP.NET Core Startup and Configuration</h1>
+                    <h3>7th video from "all about asp.net core " series</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h3>Startup.cs main use cases</h3>
+                    <ul>
+                        <li>The constructor Startup() allows us to setup or include the configuration values.</li>
+                        <li>ConfigureServices() allows us to add services to the Dependency Injection container.</li>
+                        <li>Configure() allows us to add middleware and services to the HTTP pipeline.</li>
+                    </ul>
                 </section>
                 <section>
+                    <pre><code>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Builder;
+using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Http;
+using Microsoft.Extensions.DependencyInjection;
 
+namespace WebApplication1
+{
+    public class Startup
+    {
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+        public void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app)
+        {
+            
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("Hello World!");
+            });
+        }
+
+        // Entry point for the application.
+        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+    }
+}
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Startup() method</h3>
+                    <pre><code>
+///IConfigurationRoot It represents the root of the configuration file that was formerly represented by the web.config file
+public IConfigurationRoot Configuration { get; set; }
+
+public Startup(IHostingEnvironment env)  
+{
+    // Set up configuration sources.
+    var builder = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .AddEnvironmentVariables();
+    Configuration = builder.Build();
+}
+
+                    </code></pre>
+                    <p><i>AddJsonFile("appsettings.js") </i> can parse JSON files and load the values from the app settings into the Configuration </p>
+                    <p><i>AddEnvironmentVariables()</i> adds any environmental values to the configuration</p>
+                </section>
+                <section>
+                    <h3>ConfigureServices()</h3>
+                    <pre><code>
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)  
+{
+    // Add framework services.
+    services.AddMvc();
+}
+                    </code></pre>
+                    <p>ConfigureServices exists for the explicit reason of adding services to ASP.NET Core.
+                        ASP.NET Core supports Dependency Injection natively, and as such this method is adding services to the DI container</p>
+                </section>
+                <section>
+                    <h3>Configure() -configure ASP.NET pipeline.</h3>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+    loggerFactory.AddDebug();
+
+    if (env.IsDevelopment())
+    {
+        app.UseBrowserLink();
+        app.UseDeveloperExceptionPage();
+        app.UseDatabaseErrorPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+
+        // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+        try
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService&lt;IServiceScopeFactory&gt;()
+                .CreateScope())
+            {
+                serviceScope.ServiceProvider.GetService&lt;ApplicationDbContext&gt;()
+                     .Database.Migrate();
+            }
+        }
+        catch { }
+    }
+
+    app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
+    app.UseStaticFiles();
+
+    app.UseIdentity();
+
+    // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+    app.UseMvc(routes =>
+    {
+        routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");
+    });
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>ASP.NET Core assumes that no frameworks are being used by default</h3>
+                    <p>Configuring which services are available and how the request pipeline is configured is now done completely in code in the Startup class, as opposed to using HTTP Modules and Handlers managed via web.config</p>
+                </section>
+                <section>                    
+                    <ul>
+                        <li><b><i>IApplicationBuilder</i></b> allows us to add services to the pipeline for this app.</li>
+                        <li><b><i>IHostingEnvironment</i></b> stores information about the current hosted environment.</li>
+                        <li><b><i>ILoggerFactory</i></b>allows us to setup and add log providers.</li>
+                    </ul>
                 </section>
             </div>
 

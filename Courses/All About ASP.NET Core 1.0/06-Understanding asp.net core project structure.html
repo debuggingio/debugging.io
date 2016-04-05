@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -Understanding asp.net core projects</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,17 +43,87 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
-                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                    <h1>Understanding asp.net core project</h1>
+                    <h3>6th video from "all about asp.net core" series</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h2>asp.net core project structure</h2>
+                    <img src="/images/aspnet_core_project_structure.png" alt="asp.net core project structure">
                 </section>
                 <section>
+                    <h3>Framework target</h3>
+                    <p>ASP.NET Core can target multiple frameworks, allowing the application to be deployed into different hosting environments. By default, applications will target the full version of .NET, but they can also target the .NET Core</p>
+                </section>
+                <section>
+                    <h3>project.json file</h3>                  
+                    <pre><code>
+{
+  "version": "1.0.0-*",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
 
+  "dependencies": {
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final"
+  },
+
+  "commands": {
+    "web": "Microsoft.AspNet.Server.Kestrel"
+  },
+
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  },
+
+  "exclude": [
+    "wwwroot",
+    "node_modules"
+  ],
+  "publishExclude": [
+    "**.user",
+    "**.vspscc"
+  ]
+}
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>project.json file</h3>
+                    <ul>
+                        <li> define the dependencies(references)</li>
+                        <li>allows you to configure commands that can be run from a command line</li>
+                        <li>target frameworks</li>
+                        <li>manage client side packages</li>
+                        <li>and many more...</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>global.json file</h3>
+                    <p>The global.json file is used to configure the solution as a whole. It includes just two sections, projects and sdk by default.</p>
+                    <pre><code>
+{
+  "projects": [ "src", "test" ],
+  "sdk": {
+    "version": "1.0.0-rc1-update1"
+  }
+}
+</code></pre>
+                    <p>the projects property designates which folders contain source code for the solution.y default the project structure places source files in a src folder, allowing build artifacts to be placed in a sibling folder, making it easier to exclude such things from source control. </p>
+                </section>
+                <section>
+                    <h3>wwwroot folder</h3>
+                    <img src="/images/wwwroot.png" alt="wwwroot folder">
+                    
+                </section>
+                <section>
+<p>wwwroot folder represents the actual root of the web app when running on a web server. Static files, like appsettings.json, which are not located in wwwroot will never be accessible, and there is no need to create special rules to block access to sensitive config files</p>
+                </section>
+                <section>
+                    <h3>Client side dependency management</h3>
+                    <img src="/images/aspnetcore_clientside_dependencies.png" alt="asp.net core client side dependencies">
                 </section>
             </div>
 
