@@ -52,8 +52,145 @@
                     <p>Middleware are components that are assembled into an application pipeline to handle requests and responses.The concept is similar as famous open source framewosk django(python) or expressjs(nodejs) frameworks</p>
                 </section>
                 <section>
+                    <p>Middleware, at least in ASP.NET, comes from the Open Web Interface for .NET (<a href="http://owin.org/">Open Web Interface for .NET (OWIN)</a> project. </p>
+                </section>
+                <section>
                     <h3>Middleware pipeline</h3>
                     <img src="/images/request-delegate-pipeline.png" alt="middleware pipeline">
+                </section>
+                <section>
+                    <h4>any time you see <i>app.UseX()</i>, you are using some of ASP.NET's default Middleware components.</h4>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+    
+
+    if (env.IsDevelopment())
+    {
+        app.UseBrowserLink();
+        app.UseDeveloperExceptionPage();
+        app.UseDatabaseErrorPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Home/Error");
+
+    }
+
+    app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+
+    app.UseStaticFiles();
+
+    app.UseIdentity();
+
+    // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+    app.UseMvc(routes =>
+    {
+        routes.MapRoute(
+            name: "default",
+            template: "{controller=Home}/{action=Index}/{id?}");
+    });
+}
+       
+</code></pre>
+                </section>
+                <section>
+                    <h3>Writing a custom Middleware</h3>
+                    <pre><code>
+public class CustomMiddleware  
+{
+    private readonly RequestDelegate _next;
+
+    public AuthorizationMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+}
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Run,Map and Use</h3>
+                    <p>3 ways to configure middlewares</p>
+                </section>
+                <section>
+                    <h3>Run extension</h3>
+                    <pre><code>
+public void Configure(IApplicationBuilder app)
+    {        
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("Return From Run.");
+        });
+        app.Run(async context => {
+            await context.Response.WriteAsync("This is second Run.");
+        });
+    }
+
+                    </code></pre>
+                    <p>The nature of Run extension is to short circuit the HTTP pipeline immediately. It is a shorthand way of adding middleware to the pipeline that does not call any other middleware which is next to it and immediately return HTTP response.</p>
+                </section>
+                <section>
+                    <h3>Use Extension</h3>
+                    <p>n case of Use extension, there is a chance to pass next invoker, so that HTTP request will be transferred to the next middleware after execution of current Use if there next invoker is present</p>
+                    <pre><code>
+public void Configure(IApplicationBuilder app)
+    {        
+        app.Use(next=> async context =>
+        {
+            await context.Response.WriteAsync("Return From Use.");
+            await next.Invoke(context);
+        });
+        app.Run(async context => {
+            await context.Response.WriteAsync("This is from Run.");
+        });
+    }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Map Extension</h3>
+                    <p>Map extensions are used as convention for branching the pipeline. We can hook delegate to Map extension to push it to HTTP pipeline. Map simply accepts a path and a function that configures a separate middleware pipeline</p>
+                    <pre><code>
+private static void MyDelegate(IApplicationBuilder app)
+    {
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("Returning from Map");
+        });
+    }
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseMvc();
+        app.Map("/MyDelegate", MyDelegate);
+    }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>MapWhen Extension</h3>
+                    <pre><code>
+private static void MapQuery(IApplicationBuilder app)
+    {
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("Return from MapQuery");
+        });
+    }
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseMvc();
+        //Execute when "map" is there in query string
+        app.MapWhen(context => {
+            return context.Request.Query.ContainsKey("map");
+        }, MapQuery);
+        //Return response for other request
+        app.Run(async context =>
+        {
+            await context.Response.WriteAsync("From Run extension");
+        });
+    }
+</code></pre>
                 </section>
             </div>
 
