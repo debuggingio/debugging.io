@@ -48,12 +48,84 @@
                     <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h2>Static Files middleware</h2>
+                    <a href="https://github.com/aspnet/StaticFiles">https://github.com/aspnet/StaticFiles</a>
                 </section>
                 <section>
-
+                    <h3>Serving static files</h3>
+                    <p>The location of the webroot is defined in the project’s hosting.json file where the default is wwwroot.
+</p>
+                    <pre><code>"webroot": "wwwroot"</code></code?></pre>
+                </section>
+                <section>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+  // Add static files to the request pipeline.
+  app.UseStaticFiles();
+  ...
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Serving Static files from outside the webroot</h3>
+                    <pre>
+<code>
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+  // Add MyStaticFiles static files to the request pipeline.
+  app.UseStaticFiles(new StaticFileOptions()
+  {
+      FileProvider = new PhysicalFileProvider(@"D:\Source\WebApplication1\src\WebApplication1\MyStaticFiles"),
+      RequestPath = new PathString("/StaticFiles")
+  });
+</code>
+</pre>
+                </section>
+                <section>
+                    <h3>enabling directory browsing</h3>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+  // Turn on directory browsing for the current directory.
+  app.UseDirectoryBrowser();
+                    </code></pre>
+                </section>
+                <section>
+                    <img src="/images/dir-browse.png" alt="directory browsing with asp.net core">
+                </section>
+                <section>
+                    <h3>Serving default pages</h3>
+                    <pre><code>
+                        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+  // Serve the default file, if present.
+  app.UseDefaultFiles();
+  app.UseStaticFiles();
+  ...
+                    </code></pre>
+                    <p>you must still call UseStaticFiles as well. This is because UseDefaultFiles is a URL re-writer that doesn’t actually serve the file. You must still specify middleware (UseStaticFiles, in this case) to serve the file.</p>
+                </section>
+                
+                <section>
+                    <h3>Using the UseFileServer</h3>
+                    <pre><code>
+// Enable all static file middleware (serving of static files and default files) EXCEPT directory browsing.
+app.UseFileServer();
+                    </code></pre>
+                    <br>
+                    <br>
+                    <pre><code>
+// Enables all static file middleware (serving of static files, default files, and directory browsing).
+app.UseFileServer(enableDirectoryBrowsing: true);
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Working with content types
+                    </h3>
                 </section>
             </div>
 
