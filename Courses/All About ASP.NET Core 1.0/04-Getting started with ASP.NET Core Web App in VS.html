@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -Getting Started with ASP.NET Core in VS</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,38 +43,43 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Routing in asp.net core</h1>
-                    <h3>11th video from "All about asp.net core" series</h3>
+                    <h1>Getting started with  ASP.NET Core</h1>
+                    <h3>4th video from all about asp.net core course</h3>
                     <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h3>The ASP.NET Core Routing system is primarily responsible for two operations:</h3>
-                    <ul>
-                        <li>It maps incoming HTTP requests to a route handler given a collection of routes.</li>
-                        <li>It generates URLs (links) from these routes. </li>
+                    <h3>Prerequisites</h3>
+                    <ul><li><a href="https://go.microsoft.com/fwlink/?LinkId=532606">Visual studio 2015(Community edition)</a></li>
+                        <li> <a href="http://go.microsoft.com/fwlink/?LinkId=627627">ASPNET Core Tooling</a></li>
+                        <li><a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=30679">Visual C++ Redistributable for Visual Studio 2012 Update 4(for windows 7)</a></li>
                     </ul>
                 </section>
                 <section>
-                    <h3>resides in Microsoft.AspNet.Routing NuGet package</h3>
+                    <h3>Create your first asp.net core project in visual studio</h3>
+                    <p>Select the ASP.NET Web Application project template. It appears under Installed > Templates > Visual C# > Web</p>
+                    <img src="/images/aspnetcore_vs_new.png" alt="create new asp.net core project in visual studio">
                 </section>
                 <section>
-                    <p>The request flow through the routing pipeline
-<ul>
-    <li>When a request is processed by ASP.NET vNext, the routing middleware will try to match the request with routes in the route collection.</li>
-    <li>If one of the routes matches the request, it looks for the handler for the route.</li>
-    <li>The RouteAsync method of the handler is called.</li>
-    <li>The RoutingContext has a flag called IsHandled. If that is set to true, it means the request was successfully handled by the handler. If it is set to false, it means the route wasn’t able to handle the request, and that the next route should be tried.</li>
-</ul>
-</p>
+                    <h4>In the New ASP.NET Project dialog, select Web Application under ASP.NET 5 Preview Templates.
+                     Also, make sure the Host in the cloud checkbox is not selected and click OK.</h4>
+                    <img src="/images/aspnet_core_select_template_vs.png" alt="aspnet core VS template">
+                </section>
+                <section>                    
+                    <img src="/images/aspnet_core_vs_welcome.png" alt="welcome screen of asp.net core">
                 </section>
                 <section>
-                    <p>Routing is a powerful feature that is built into the default ASP.NET Core MVC middleware such that most apps will be able to leverage it without having to customize its behavior.
-                         This is by design; customizing routing behavior is an advanced development approach. <b>Most apps shouldn’t need custom routes.</b> The default route will work in most cases.</p>
+                    <h3>Running and debugging your asp.net core app</h3>
+                    <p>Once Visual Studio finishes creating the app, run the app by selecting <b> Debug -> Start Debugging </b>. As an alternative, you can press F5.</p>
                 </section>
-                <section>                
-                    <h3>Routing Middleware</h3>
-                    <p>The routing middleware uses routes to map requests to an IRouter instance. The IRouter instance chooses whether or not to handle the request, and how</p>
+                <section>
+                    <img src="/images/run_aspnet_core_app.png" alt="running asp.net app in VS">
                 </section>
+                <section>
+                    <h3>references</h3>
+                    <ul><li><a href="https://docs.asp.net/en/latest/tutorials/your-first-aspnet-application.html">Your first asp.net core app in VS</a></li>
+                    <li><a href="https://docs.asp.net/en/latest/getting-started/index.html">Geeting started with asp.net core</a></li></ul>
+                </section>
+
             </div>
 
 		</div>

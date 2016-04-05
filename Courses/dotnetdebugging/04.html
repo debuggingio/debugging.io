@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -Getting Started with .NET Core</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,37 +43,13 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Routing in asp.net core</h1>
-                    <h3>11th video from "All about asp.net core" series</h3>
+                    <h1>Getting Started with .NET Core</h1>
+                    <h3>3rd video from all about asp.net core course</h3>
                     <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
+                
                 <section>
-                    <h3>The ASP.NET Core Routing system is primarily responsible for two operations:</h3>
-                    <ul>
-                        <li>It maps incoming HTTP requests to a route handler given a collection of routes.</li>
-                        <li>It generates URLs (links) from these routes. </li>
-                    </ul>
-                </section>
-                <section>
-                    <h3>resides in Microsoft.AspNet.Routing NuGet package</h3>
-                </section>
-                <section>
-                    <p>The request flow through the routing pipeline
-<ul>
-    <li>When a request is processed by ASP.NET vNext, the routing middleware will try to match the request with routes in the route collection.</li>
-    <li>If one of the routes matches the request, it looks for the handler for the route.</li>
-    <li>The RouteAsync method of the handler is called.</li>
-    <li>The RoutingContext has a flag called IsHandled. If that is set to true, it means the request was successfully handled by the handler. If it is set to false, it means the route wasn’t able to handle the request, and that the next route should be tried.</li>
-</ul>
-</p>
-                </section>
-                <section>
-                    <p>Routing is a powerful feature that is built into the default ASP.NET Core MVC middleware such that most apps will be able to leverage it without having to customize its behavior.
-                         This is by design; customizing routing behavior is an advanced development approach. <b>Most apps shouldn’t need custom routes.</b> The default route will work in most cases.</p>
-                </section>
-                <section>                
-                    <h3>Routing Middleware</h3>
-                    <p>The routing middleware uses routes to map requests to an IRouter instance. The IRouter instance chooses whether or not to handle the request, and how</p>
+
                 </section>
             </div>
 

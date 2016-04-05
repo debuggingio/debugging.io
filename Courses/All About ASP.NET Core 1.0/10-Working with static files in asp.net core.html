@@ -124,8 +124,48 @@ app.UseFileServer(enableDirectoryBrowsing: true);
                     </code></pre>
                 </section>
                 <section>
-                    <h3>Working with content types
-                    </h3>
+                    <h3>Working with content types</h3>
+                    <p>The ASP.NET static files middleware defines almost<a href="https://github.com/aspnet/StaticFiles/blob/dev/src/Microsoft.AspNetCore.StaticFiles/FileExtensionContentTypeProvider.cs">400 known file content types</a> .</p>
+                </section>
+                <section>
+                    <h3>If the user attempts to reach a file of an unknown file type, the ASP.NET middleware will not attempt to serve the file by default.</h3>
+                </section>
+                <section>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+  // Serve static files and allow directory browsing.
+  app.UseDirectoryBrowser();
+  app.UseStaticFiles(new StaticFileOptions
+  {
+    ServeUnknownFileTypes = true,
+    DefaultContentType = "image/png"
+  });
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>multiple file types that are unknown to ASP.NET Core</h3>
+                    <p><b>FileExtensionContentTypeProvider</b>This class contains an internal collection that maps file extensions to MIME content types. To specify custom content types, simply instantiate a FileExtensionContentTypeProvider object and add a mapping to the FileExtensionContentTypeProvider.</p>
+                </section>
+                <section>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+{
+  ...
+
+  // Allow directory browsing.
+  app.UseDirectoryBrowser();
+
+  // Set up custom content types - associating file extension to MIME type
+  var provider = new FileExtensionContentTypeProvider();
+  provider.Mappings.Add(".myapp", "application/x-msdownload");
+
+  // Serve static files.
+  app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
+
+  ...
+                    </code></pre>
                 </section>
             </div>
 
