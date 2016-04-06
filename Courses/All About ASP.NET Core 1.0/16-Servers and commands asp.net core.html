@@ -1,0 +1,178 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>debugging.io -Servers and Commands in asp.net core</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="/css/reveal.min.css">
+		<link rel="stylesheet" href="/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = '/css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Servers and commands</h1>
+                    <h3>16th video from "all about asp.net core"</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                    <h2>Servers and commands</h2>
+                    <p>ASP.NET Core was designed to decouple web applications from the underlying HTTP server.ASP.NET Core ships with two different HTTP servers:</p>
+                    <ul>
+                        <li>Microsoft.AspNet.Server.WebListener (AKA WebListener, Windows-only)</li>
+                        <li>Microsoft.AspNet.Server.Kestrel (AKA Kestrel, cross-platform)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>IIS and IIS Express</h3>
+                    <p>IIS is the most feature rich server, and includes IIS management functionality and access to other IIS modules. 
+                        Hosting ASP.NET Core uses ASP.NET Core Module(beta as of today) in Need package <b>IIS.Microsoft.AspNetCore.Server.IISIntegration</b> </p>
+                    
+                    <pre><code>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;configuration&gt;
+  &lt;system.webServer&gt;
+    &lt;handlers&gt;
+      &lt;add name="aspNetCore" path="*" verb="*" modules="AspNetCoreModule" resourceType="Unspecified" /&gt;
+    &lt;/handlers&gt;
+    &lt;aspNetCore processPath="..\MySite.exe" arguments="" stdoutLogEnabled="false" stdoutLogFile="..\logs\stdout.log" /&gt;
+  &lt;/system.webServer&gt;
+&lt;/configuration&gt;
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>WebListener</h3>
+                    <p>WebListener is a Windows-only HTTP server for ASP.NET 5. It runs directly on the Http.Sys kernel driver, and has very little overhead.</p>
+                    <p>adding the “Microsoft.AspNet.Server.WebListener” dependency in project.json and the following command:</p>
+                    <pre><code>
+"web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Kestrel</h3>
+                    <p>Kestrel is a cross-platform web server based on libuv, a cross-platform asynchronous I/O library. Kestrel is open-source</p>
+                </section>
+                <section>
+                    <h3>Choosing a server</h3>
+                    <p>If you intend to deploy your application on a Windows server, you should run IIS as a reverse proxy server that manages and proxies requests to Kestrel. If deploying on Linux, you should run a comparable reverse proxy server such as Apache or Nginx to proxy requests to Kestrel.</p>
+                </section>
+                <section>
+                    <h3>Using Commands</h3>
+                    <p>A command is a named execution of a .NET entry point with specific arguments. Commands can be defined locally in your project or installed globally on your machine. The project.json file in your project allows you to define commands for your project</p>
+                </section>                
+                <section>
+                    <h3>Using commands</h3>
+                    <pre><code>
+{
+  "webroot": "wwwroot",
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Kestrel": "1.0.0-beta7",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-beta7",
+    "Microsoft.AspNet.Hosting": "1.0.0-beta7",
+    "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta7",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta7"
+  },
+  "commands": {
+    "web": "Microsoft.AspNet.Hosting --config hosting.ini",
+    "kestrel": "Microsoft.AspNet.Hosting --config hosting.ini",
+    "gen": "Microsoft.Framework.CodeGeneration",
+    "ef": "EntityFramework.Commands"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Running commands using dnx.exe/dotnet CLI</h3>
+                    <p>e.g. <b>dnx kestrel</b>(before RTM) <b>dotnet kestrel</b></p>
+                </section>
+                <section>
+                    <h3>Global commands</h3>
+                    <p>Global commands are dotnet console applications (in a NuGet package) that are installed globally and runnable from your command line. The difference between global commands and commands that you add in the commands section of the project.json file of a project is that global commands are made available to everything that runs under a user profile. You can install, run, uninstall, build, and publish global commands.</p>
+                </section>
+                <section>
+                    <h3>Built-in global commands</h3>
+                    <p>The following built-in global commands are available:</p>
+                    <ol>
+                        <li>user-secret</li>
+                        <li>sqlservercache</li>
+                    </ol>   
+                </section>
+            </div>
+
+		</div>
+
+		<script src="/lib/js/head.min.js"></script>
+		<script src="/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: "sky", // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

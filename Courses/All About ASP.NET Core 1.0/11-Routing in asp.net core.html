@@ -55,17 +55,17 @@
                     </ul>
                 </section>
                 <section>
-                    <h3>resides in Microsoft.AspNet.Routing NuGet package</h3>
+                    <h3>resides in Microsoft.AspNetCore.Routing NuGet package</h3>
                 </section>
                 <section>
-                    <p>The request flow through the routing pipeline
+                    <p>The request flow through the routing pipeline</p>
 <ul>
-    <li>When a request is processed by ASP.NET vNext, the routing middleware will try to match the request with routes in the route collection.</li>
+    <li>When a request is processed by ASP.NET Core, the routing middleware will try to match the request with routes in the route collection.</li>
     <li>If one of the routes matches the request, it looks for the handler for the route.</li>
     <li>The RouteAsync method of the handler is called.</li>
     <li>The RoutingContext has a flag called IsHandled. If that is set to true, it means the request was successfully handled by the handler. If it is set to false, it means the route wasn’t able to handle the request, and that the next route should be tried.</li>
 </ul>
-</p>
+
                 </section>
                 <section>
                     <p>Routing is a powerful feature that is built into the default ASP.NET Core MVC middleware such that most apps will be able to leverage it without having to customize its behavior.
@@ -74,6 +74,51 @@
                 <section>                
                     <h3>Routing Middleware</h3>
                     <p>The routing middleware uses routes to map requests to an IRouter instance. The IRouter instance chooses whether or not to handle the request, and how</p>
+                </section>
+                
+                <section>
+                    <img src="/images/routing_aspnet_core.png" alt="asp.net routing">
+                </section>
+                <section>
+                    <h3>The new Routing framework is based around the concept of an IRouter:</h3>
+                    <pre><code>                        
+
+public interface IRouter  
+{
+    Task RouteAsync(RouteContext context);
+
+    VirtualPathData GetVirtualPath(VirtualPathContext context);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <p>When you call app.UseMvc(r => { }) and configure your routes, you're actually using a new IRouteBuilder abstraction which is used to build a router instance:</p>
+                    <pre><code>
+public interface IRouteBuilder  
+{
+    IRouter DefaultHandler { get; set; }
+
+    IServiceProvider ServiceProvider { get; }
+
+    IList&lt;IRouter&gt; Routes { get; }
+
+    IRouter Build();
+}
+                    
+                    </code></pre>
+
+<h3>For MVC, the DefaultHandler property is an instance of MvcRouteHandler, and this does the work of selecting an action to execute.</h3>
+                </section>
+                <section>
+                    <h3>Attribute Routing</h3>
+                    <p>Attribute Routing is a feature of MVC and not directly tied to the Routing framework. Because MVC UseMvc(r => { }) call injects a single instance of AttributeRoute at the start of the route collection after all other routes have been configured.</p>
+                    <img src="/images/attributerouting_aspnetcore.png" alt="attribute routing ion asp.net core">
+                </section>
+                <section>
+                    <h3>References</h3>
+                    <ul><li><a href="https://github.com/aspnet/Routing">https://github.com/aspnet/Routing</a></li>
+                    <li><a href="https://github.com/aspnet/Mvc" >https://github.com/aspnet/Mvc</a></li>
+                    </ul>                    
                 </section>
             </div>
 

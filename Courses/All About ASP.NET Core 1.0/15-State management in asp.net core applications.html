@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -State management in asp.net core applications</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,9 +43,9 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
-                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                    <h1>State management in asp.net core applications</h1>
+                    <h3>15th video from the series "all about asp.net core"</h3>
+                    <h4>Rohith Rajan <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
                     <h2>windbg</h2>
@@ -53,8 +53,43 @@
                     WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
                 </section>
                 <section>
-
+                    <h3>Types of state managements</h3>
+                    <ul>
+                        <li>HttpContext.Items</li>
+                        <li>Querystring and Post</li>
+                        <li>Cookies</li>
+                        <li>Session</li>
+                        <li>Cache</li>
+                        <li>Configuration</li>
+                        <li></li>
+                    </ul>
+                    
                 </section>
+                <section>
+                    <h3>Working with HttpContext.Items</h3>
+                    <p>For example, some simple Middleware could add something to the Items collection:
+                    <pre><code>
+                    app.Use(async (context, next) =>
+        {
+                // perform some verification
+                context.Items["isVerified"] = true;
+                await next.Invoke();
+        });
+
+//access the item set 
+app.Run(async (context) =>
+{
+        await context.Response.WriteAsync("Verified request? "
+                + context.Items["isVerified"]);
+});
+                    </code></pre>
+</p>
+                </section>
+                <section>
+                    <h3>ASP.NET 5 ships a session package that provides middleware for managing session state.</h3>
+                    <p>Microsoft.AspNet.Session package</p>
+                </section>
+
             </div>
 
 		</div>

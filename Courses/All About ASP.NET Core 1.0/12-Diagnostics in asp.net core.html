@@ -1,0 +1,163 @@
+﻿<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>debugging.io -diagnotics in asp.net core</title>
+
+		<meta name="description" content="step by step instructions to learn">
+		<meta name="author" content="Rohith Rajan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="/css/reveal.min.css">
+		<link rel="stylesheet" href="/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = '/css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <h1>Diagnotics in asp.net core</h1>
+                    <h3>as part of the "a all about asp.net core" serries</h3>
+                    <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
+                </section>
+                <section>
+                    <h3>Configuring an error handling page</h3>
+                    <p>Add a dependency on Microsoft.AspNet.Diagnostics to the project (and a using statement to Startup.cs), and then add one line to Configure() in Startup.cs:</p>
+                    <pre><code>
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+
+                app.UseRuntimeInfoPage(); // default path is /runtimeinfo
+            }
+            else
+            {
+                // specify production behavior for error handling, for example:
+                 app.UseExceptionHandler("/Home/Error");
+                
+            }
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Using the error page during development</h3>
+                    <img src="/images/errorpage-stack.png" alt="error page when an exception occurs in asp.net core">
+                </section>
+                <section>
+                    <h3>tabed information in the error page</h3>
+                    <img src="/images/errorpage-query.png" alt="query string tab in error page">
+                </section>
+                <section>
+                    <h3>can browse to the specified path (/runtimeinfo) to see information about the runtime that is being used and the packages that are included in the application</h3>
+                    <img src="/images/runtimeinfo-page.png" alt="runtime info page in asp.net core">
+                </section>
+                <section>
+                    <h3>Configuring custom exception handler</h3>
+                    <pre><code>
+public void Configure(IApplicationBuilder app)
+        {
+            // Configure the error handler to show an error page.
+            app.UseExceptionHandler(errorApp =>
+            {
+                // Normally you'd use MVC or similar to render a nice page.
+                errorApp.Run(async context =>
+                {
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "text/html";
+                    await context.Response.WriteAsync("&lt;html&gt;&lt;body&gt;\r\n");
+                    await context.Response.WriteAsync("We're sorry, we encountered an un-expected issue with your application.<br>\r\n");
+
+                    var error = context.Features.Get&lt;IExceptionHandlerFeature&gt;();
+                    if (error != null)
+                    {
+                        // This error would not normally be exposed to the client
+                        await context.Response.WriteAsync("&lt;br&gt;Error: " + HtmlEncoder.Default.Encode(error.Error.Message) + "&lt;br&gt;\r\n");
+                    }
+                    await context.Response.WriteAsync("&lt;br&gt;&lt;a href=\"/\"&gt;Home&lt;/a&gt;&lt;br&gt;\r\n");
+                    await context.Response.WriteAsync("&lt;/body&gt;&lt;/html&gt;\r\n");
+                    await context.Response.WriteAsync(new string(' ', 512)); // Padding for IE
+                });
+            });
+
+            // We could also configure it to re-execute the request on the normal pipeline with a different path.
+            // app.UseExceptionHandler("/error.html");
+
+            // The broken section of our application.
+            app.Map("/throw", throwApp =>
+            {
+                throwApp.Run(context => { throw new Exception("Application Exception"); });
+            });
+
+            app.UseStaticFiles();
+
+            
+        }
+                    </code></pre>
+                </section>
+            </div>
+
+		</div>
+
+		<script src="/lib/js/head.min.js"></script>
+		<script src="/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: "sky", // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

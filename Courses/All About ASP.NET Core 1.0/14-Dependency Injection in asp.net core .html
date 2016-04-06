@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>debugging.io -advanced .net debugging course tools of the trade</title>
+		<title>debugging.io -Dependency injection in asp.net core</title>
 
 		<meta name="description" content="step by step instructions to learn">
 		<meta name="author" content="Rohith Rajan">
@@ -43,17 +43,56 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
                 <section>
-                    <h1>Tools of the trade</h1>
-                    <h3>Advanced .NET Debugging</h3>
+                    <h1>Dependency injection in asp.net core</h1>
+                    <h3>14th video of asp.net core</h3>
                     <h4>Rohith Rajan @debuggingio <a href="http://debugging.io">debugging.io</a></h4>
                 </section>
                 <section>
-                    <h2>windbg</h2>
-                    <p>Debugger installed with the debugging tools for windows. 
-                    WinDbg can be used for debugging kernel-mode memory dumps,user-mode crash dumps(This is known as post-mortem debugging) or debug live process.</p>
+                    <h2>What is Dependency Injection?</h2>
+                    <p>Dependency injection (DI) is a technique for achieving loose coupling between objects and their collaborators, or dependencies</p>
                 </section>
                 <section>
+                    <p> the Dependency Inversion Principle states that <b> “high level modules should not depend on low level modules; both should depend on abstractions.”</b> 
+                        Instead of referencing specific implementations, classes request abstractions (typically <i>interfaces</i>)</p>
+                    
+                </section>
+                <section>
+                    <img src="/images/ioc-aspnetcore.png" alt="dependency and IOC in asp.net core">
+                </section>
+                <section>
+                    <h3>services are simply o types that are managed by ASP.NET Core’s IoC container</h3>
+                </section>
+                <section>
+                    <h3>Using Framework-Provided Services</h3>
+                    <p>he ConfigureServices method in the Startup class is responsible for defining the services the application will use, including platform features like Entity Framework and ASP.NET MVC</p>
+                    <pre><code>
+                        public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddEntityFramework()
+        .AddSqlServer()
+        .AddDbContext&lt;ApplicationDbContext&gt;(options =>
+            options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
+    services.AddIdentity&lt;ApplicationUser, IdentityRole&gt;()
+        .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;()
+        .AddDefaultTokenProviders();
+
+    services.AddMvc();
+
+    // Add application services.
+    services.AddTransient&lt;IEmailSender, AuthMessageSender&gt;();
+    services.AddTransient&lt;ISmsSender, AuthMessageSender&gt;();
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Registering Your Own Services</h3>
+                    <pre><code>
+// Add application services.
+services.AddTransient&lt;IEmailSender, AuthMessageSender&gt;();
+services.AddTransient&lt;ISmsSender, AuthMessageSender&gt;();
+                    </code></pre>
                 </section>
             </div>
 
