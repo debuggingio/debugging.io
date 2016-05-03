@@ -75,6 +75,50 @@
                     <img src="/images/run_aspnet_core_app.png" alt="running asp.net app in VS">
                 </section>
                 <section>
+                    <h3>asp.net core and VS code</h3>
+                    <ul>
+                        <li>creating projects for .net core/asp.net core
+                        <p><pre><code>
+//Install Node.js, npm, and Yeoman
+npm install -g yo bower grunt-cli gulp
+                    </code></pre></p>
+                        </li>
+                        <li>
+                            From the command line, install the ASP.NET generator:
+                            <p>
+                            <pre><code>
+npm install -g generator-aspnet
+//The –g flag installs the generator globally, so that it can be used from any path.
+                            </code></pre></p>
+                        </li>
+                        
+                    </ul>
+                    <p></p>
+                    
+                </section>
+                <section>
+                    <h3>Creating asp.net core new project without VS</h3>
+                    <ul><li>Create an asp.net app
+                            <p><pre>
+<code>
+mkdir C:\Myaspnetcore
+cd C:\Myaspnetcore
+</code>
+</pre></p>
+                        </li>
+                    <li>Run the ASP.NET generator for yo
+                    <p><pre><code>
+yo aspnet
+                    </code></pre></p></li>
+                    <li>The generator displays a menu. Arrow down to the Web Application project and tap Enter:
+                    <img src="/images/yeoman-yo-aspnet.png" alt="aspnet core yo generator options"></li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>develop/debug with VS code</h3>
+                    <img src="/images/aspnetcore_vscode.png" alt="running asp.net core with VS code">
+                </section>
+                <section>
                     <h3>references</h3>
                     <ul><li><a href="https://docs.asp.net/en/latest/tutorials/your-first-aspnet-application.html">Your first asp.net core app in VS</a></li>
                     <li><a href="https://docs.asp.net/en/latest/getting-started/index.html">Geeting started with asp.net core</a></li></ul>
